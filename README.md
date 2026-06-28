@@ -45,6 +45,7 @@ A3: 使用如下，请自行尝试：
 - [天使☆嚣嚣 RE-BOOT!（Hikari Field版） - ten_sz_hxnames](https://github.com/MLChinoo/ten_sz_hxnames)
 - [Limelight Lemonade Jam - lllj_hxnames](https://github.com/MLChinoo/lllj_hxnames)
 - [Dracu-Riot!（Steam版） - HxNames-DR.lst](https://github.com/2778995958/gal_tachie_ai/blob/main/yuzu/HxNames-DR.lst)
+- [ガマンができない童貞兄キと、スナオになれない反抗妹』（略称：童貞兄妹) - HxNames-DTKD.lst](https://github.com/2778995958/gal_tachie_ai/blob/main/krkr/HxNames-DTKD.lst)
 
 **特别感谢：**
 

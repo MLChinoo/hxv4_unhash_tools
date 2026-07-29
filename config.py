@@ -1,26 +1,29 @@
 from pathlib import Path
 
+
 class Config:
-    # game_dir = r"D:\gals\天使嚣嚣 hf"
-    # game_exe = os.path.join(game_dir, "tenshi_sz.exe")
-    
-    project_dir: Path
-    rename_dir: Path
-    
-    psbdecompile_exe = r"binaries/psb_decompile/PsbDecompile.exe"
-    pbd2json_exe = r"binaries/pbd2json.exe"
-    krkrhxv4hash_dll = r"binaries/KrkrHxv4Hash.dll"
-    
-    temp_dir = "temp/"
-    psb_type_cache_pkl = "psb_type_cache.pkl"
-    
     def __init__(self, project_dir, rename_dir):
-        self.project_dir = Path(project_dir)
+        self.project_dir = Path(project_dir).resolve()
         self.rename_dir = Path(rename_dir)
-        self.psbdecompile_exe = self.project_dir / self.psbdecompile_exe
-        self.pbd2json_exe = self.project_dir / self.pbd2json_exe
-        self.krkrhxv4hash_dll = self.project_dir / self.krkrhxv4hash_dll
-        self.temp_dir = self.project_dir / self.temp_dir
-        if not self.temp_dir.exists():
-            self.temp_dir.mkdir(parents=True, exist_ok=True)
-        self.psb_type_cache_pkl = self.temp_dir / self.psb_type_cache_pkl
+
+        binaries_dir = self.project_dir / "binaries"
+        self.psbdecompile_exe = (
+            binaries_dir / "psb_decompile" / "PsbDecompile.exe"
+        )
+        self.pbd2json_exe = binaries_dir / "pbd2json.exe"
+        self.krkrhxv4hash_dll = binaries_dir / "KrkrHxv4Hash.dll"
+
+        self.temp_dir = self.project_dir / "temp"
+        self.psb_type_cache_pkl = self.temp_dir / "psb_type_cache.pkl"
+        self.hxnames_file = self.project_dir / "HxNames.lst"
+
+    def prepare(self):
+        self.temp_dir.mkdir(parents=True, exist_ok=True)
+
+    def validate(self):
+        if not self.rename_dir.is_dir():
+            raise FileNotFoundError(f"待处理目录不存在：{self.rename_dir}")
+        if not self.krkrhxv4hash_dll.is_file():
+            raise FileNotFoundError(
+                f"哈希 DLL 不存在：{self.krkrhxv4hash_dll}"
+            )

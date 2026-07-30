@@ -34,7 +34,7 @@ class PlainDictProviders:
     def from_chthum_index_pbd(self, chthum_index_pbd_filepath) -> PlainDict:
         ...
 
-    def from_imagediffmap_csv(self, imagediffmap_csv_filepath) -> PlainDict:
+    def from_imagediffmap_csv(self, imagediffmap_csv_filepath, file_encoding: str = "utf-16le") -> PlainDict:
         ...
 
     def from_krkrdump_logs(self, krkrdump_dir) -> PlainDict:

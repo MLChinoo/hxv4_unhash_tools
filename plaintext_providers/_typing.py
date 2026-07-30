@@ -67,6 +67,9 @@ class PlainDictProviders:
     def from_scenelist_csv(self, scenelist_csv_filepath, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
+    def from_soundgain_csv(self, soundgain_csv_filepath, file_encoding: str) -> PlainDict:
+        ...
+
     def from_soundlist_csv(self, soundlist_csv_filepath, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 

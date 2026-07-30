@@ -5,7 +5,7 @@ from pathlib import Path
 from config import Config
 from plain_dict import PlainDict
 from utils.file_utils import get_unique_name, merge_dir
-from utils.krkr_hxv4_hash import get_file_hash, get_path_hash, set_hashlib
+from utils.krkr_hxv4_hash import get_file_hash, get_path_hash, set_hashlib, is_path_hash, is_file_hash
 import utils.tjs_parser
 
 
@@ -13,7 +13,6 @@ current_config = Config(
     project_dir=Path(__file__).resolve().parent,
     rename_dir=Path(r"D:\gals\dumps\lemonade_dumps"),
 )
-
 
 # 在这里添加明文字典来源；直接修改、添加或注释链式调用并填写参数。
 def build_plain_dictionary():
@@ -119,9 +118,9 @@ def main():
                 continue
             assert len(splitted := line.replace("\n", "").split(":")) == 2, line
             hx_hash, hx_name = splitted
-            if len(hx_hash) == 16:  # path
+            if is_path_hash(hx_hash):  # path
                 path_hash_map[hx_name] = hx_hash
-            elif len(hx_hash) == 64:  # file
+            elif is_file_hash(hx_hash):  # file
                 file_hash_map[hx_name] = hx_hash
             else:
                 raise Exception(hx_hash)

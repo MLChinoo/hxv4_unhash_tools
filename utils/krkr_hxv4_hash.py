@@ -48,20 +48,16 @@ def get_path_hash(pathname: str) -> str:
     return hash_result
 
 def is_file_hash(input: str) -> bool:
-    if len(input) != 64:
-        return False
-    for char in input:
-        if not char.isdigit() and not char.isupper():
-            return False
-    return True
+    return (
+        len(input) == 64
+        and all(char.lower() in "0123456789abcdef" for char in input)
+    )
 
 def is_path_hash(input: str) -> bool:
-    if len(input) != 16:
-        return False
-    for char in input:
-        if not char.isdigit() and not char.isupper():
-            return False
-    return True
+    return (
+        len(input) == 16
+        and all(char.lower() in "0123456789abcdef" for char in input)
+    )
 
 if __name__ == "__main__":
     print(get_path_hash("/"))

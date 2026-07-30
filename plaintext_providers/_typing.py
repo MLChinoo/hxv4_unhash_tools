@@ -79,6 +79,9 @@ class PlainDictProviders:
     def scan_fgimage_stands(self, fgimage_dir, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
+    def scan_locale_files(self, locale_dir: str) -> PlainDict:
+        ...
+
     def scan_psb_and_decompile(self, scn_dir: str) -> PlainDict:
         ...
 
@@ -94,5 +97,5 @@ class PlainDictProviders:
     def scan_uipsd_pbds(self, uipsd_dir: str) -> PlainDict:
         ...
 
-    def scan_unobfuscated_directory(self, base_dir: str) -> PlainDict:
+    def scan_unhashed_directory(self, base_dir: str) -> PlainDict:
         ...

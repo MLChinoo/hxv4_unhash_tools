@@ -1,15 +1,17 @@
+import os
+import shutil
 from pathlib import Path
 
 from config import Config
-from hxnames import add_missing_hashes, load_hxnames, save_hxnames
 from plain_dict import PlainDict
-from renamer import rename_hashed_items
-from utils.krkr_hxv4_hash import set_hashlib
+from utils.file_utils import get_unique_name, merge_dir
+from utils.krkr_hxv4_hash import get_file_hash, get_path_hash, set_hashlib
+import utils.tjs_parser
 
 
 current_config = Config(
     project_dir=Path(__file__).resolve().parent,
-    rename_dir=Path(r"C:\Users\MLChinoo\Desktop\3lj_data_full"),
+    rename_dir=Path(r"D:\gals\dumps\lemonade_dumps"),
 )
 
 
@@ -36,12 +38,12 @@ def build_plain_dictionary():
         # .from_unobfuscated_directory(
         #     r"C:\Users\MLChinoo\Desktop\3lj_data"
         # )
-        .scan_psb_and_decompile(
-            r"C:\Users\MLChinoo\Desktop\3lj_data_full\scn"
-        )
-        # .from_base_stage(
-        #     r"C:\Users\MLChinoo\Desktop\3lj_data_full\patch\base.stage"
+        # .scan_psb_and_decompile(
+        #     r"C:\Users\MLChinoo\Desktop\3lj_data_full\scn"
         # )
+        .from_base_stage(
+            r"D:\gals\dumps\lemonade_dumps\bgimage\base.stage"
+        )
         # .from_cglist_csv(
         #     r"C:\Users\MLChinoo\Desktop\3lj_data_full\patch\cglist.csv"
         # )
@@ -98,23 +100,137 @@ def build_plain_dictionary():
 
 def main():
     current_config.validate()
-    current_config.prepare()
     set_hashlib(current_config)
+    utils.tjs_parser.initialize(current_config)
 
     dictionary = build_plain_dictionary()
-    path_hash_map, file_hash_map = load_hxnames(
-        current_config.hxnames_file
+
+    path_hash_map = {}
+    file_hash_map = {}
+    if not current_config.hxnames_file.exists():
+        current_config.hxnames_file.touch()
+
+    with current_config.hxnames_file.open(
+        mode="r",
+        encoding="UTF-8",
+    ) as h:
+        for line in h.readlines():
+            if line.strip() == "":
+                continue
+            assert len(splitted := line.replace("\n", "").split(":")) == 2, line
+            hx_hash, hx_name = splitted
+            if len(hx_hash) == 16:  # path
+                path_hash_map[hx_name] = hx_hash
+            elif len(hx_hash) == 64:  # file
+                file_hash_map[hx_name] = hx_hash
+            else:
+                raise Exception(hx_hash)
+
+    path_to_hash = (
+        dictionary.pathname_plaintexts - set(path_hash_map.keys())
     )
-    add_missing_hashes(dictionary, path_hash_map, file_hash_map)
-    save_hxnames(
-        current_config.hxnames_file,
-        path_hash_map,
-        file_hash_map,
+    file_to_hash = (
+        dictionary.filename_plaintexts - set(file_hash_map.keys())
     )
-    rename_hashed_items(
+
+    print("新增hash：")
+    for to_hash in (path_to_hash, file_to_hash):
+        for item in to_hash:
+            print(item)
+    print()
+
+    for pathname in path_to_hash:
+        pathname = pathname.strip().replace("\ufeff", "")  # remove bom
+        if pathname != "":
+            assert "/" in pathname
+        path_hash_map[pathname] = get_path_hash(pathname)
+
+    for filename in file_to_hash:
+        filename = filename.strip().replace("\ufeff", "")  # remove bom
+        file_hash_map[filename] = get_file_hash(filename)
+
+    with current_config.hxnames_file.open(
+        mode="w",
+        encoding="UTF-8",
+    ) as h:
+        for hash_map in (path_hash_map, file_hash_map):
+            for name, hx_hash in hash_map.items():
+                if name.strip() == "":
+                    continue
+                h.write(f"{hx_hash}:{name}\n")
+
+    renamed_file_count = 0
+    renamed_dir_count = 0
+    hash_path_map = {
+        value: key for key, value in path_hash_map.items()
+    }
+    hash_file_map = {
+        value: key for key, value in file_hash_map.items()
+    }
+
+    for root, dirs, files in os.walk(
         current_config.rename_dir,
-        path_hash_map,
-        file_hash_map,
+        topdown=False,
+    ):
+        for filename in files:
+            filepath = os.path.join(root, filename)
+            if filename in hash_file_map.keys():
+                new_name = hash_file_map[filename]
+                new_path = os.path.join(root, new_name)
+                new_path = get_unique_name(new_path)
+                try:
+                    os.rename(filepath, new_path)
+                    renamed_file_count += 1
+                    print(
+                        "文件重命名成功: "
+                        f"{Path(filepath).relative_to(current_config.rename_dir)}"
+                        " -> "
+                        f"{Path(new_path).relative_to(current_config.rename_dir)}"
+                    )
+                except Exception as error:
+                    print(
+                        "文件重命名失败: "
+                        f"{Path(filepath).relative_to(current_config.rename_dir)}"
+                        " -> "
+                        f"{Path(new_path).relative_to(current_config.rename_dir)}，"
+                        f"原因: {error}"
+                    )
+
+        for dirname in dirs:
+            dirpath = os.path.join(root, dirname)
+            if dirname in hash_path_map.keys():
+                assert hash_path_map[dirname][-1] == "/"
+                target_rel_path = hash_path_map[dirname].rstrip("/\\")
+                dest_path = os.path.join(root, target_rel_path)
+
+                parent_dir = os.path.dirname(dest_path)
+                os.makedirs(parent_dir, exist_ok=True)
+
+                try:
+                    if os.path.exists(dest_path):
+                        merge_dir(dirpath, dest_path)
+                    else:
+                        shutil.move(dirpath, dest_path)
+                    renamed_dir_count += 1
+                    print(
+                        "目录重命名成功: "
+                        f"{Path(dirpath).relative_to(current_config.rename_dir)}"
+                        " -> "
+                        f"{Path(dest_path).relative_to(current_config.rename_dir)}"
+                    )
+                except Exception as error:
+                    print(
+                        "目录重命名失败: "
+                        f"{Path(dirpath).relative_to(current_config.rename_dir)}"
+                        " -> "
+                        f"{Path(dest_path).relative_to(current_config.rename_dir)}，"
+                        f"原因: {error}"
+                    )
+
+    print(
+        "重命名完成："
+        f"共重命名文件 {renamed_file_count} 个，"
+        f"目录 {renamed_dir_count} 个"
     )
 
 

@@ -1,77 +1,40 @@
-import json5
-import re
+import json
+import pythonnet
+from pathlib import Path
+from config import Config
+from typing import Optional
 
-def parse_base_stage_to_json5(src: str) -> str:
-    src_no_comment = re.sub(r'//.*', '', src)
+class _TjsParser:
+    def __init__(self, config: Config):
+        pythonnet.load("coreclr")
 
-    tmp = (src_no_comment
-           .replace('%[', '{')
-           .replace('[', '[')
-           .replace('=>', ':'))
+        import clr
+        clr.AddReference(str(config.tjsparser_dll))
 
-    out = []
-    stack = []
+        from TjsParser import Parser
+        from TjsParser.Serialization import AstJson
 
-    i = 0
-    in_str = False
+        self._parser = Parser
+        self._ast_json = AstJson
 
-    while i < len(tmp):
-        ch = tmp[i]
+    def parse(self, tjs_filepath: Path) -> str:
+        tjs_filepath = Path(tjs_filepath).resolve()
+        if not tjs_filepath.is_file():
+            raise FileNotFoundError(tjs_filepath)
 
-        if ch == '"':
-            in_str = not in_str
-            out.append(ch)
-            i += 1
-            continue
+        parse_result = self._parser.ParseFile(str(tjs_filepath))
+        return str(self._ast_json.Serialize(parse_result))
 
-        if not in_str and tmp.startswith('void', i):
-            before = tmp[i - 1] if i > 0 else ' '
-            after = tmp[i + 4] if i + 4 < len(tmp) else ' '
-            if not before.isalnum() and not after.isalnum() and after != '_':
-                out.append('null')
-                i += 4
-                continue
+_tjs_parser: Optional[_TjsParser] = None
 
-        if ch == '{':
-            stack.append('object')
-            out.append('{')
-            i += 1
+def initialize(config: Config) -> None:
+    global _tjs_parser
+    _tjs_parser = _TjsParser(config)
 
-        elif ch == '[':
-            stack.append('array')
-            out.append('[')
-            i += 1
+def parse(tjs_filepath: Path) -> str:
+    if _tjs_parser is None:
+        raise RuntimeError("TjsParser.dll is not initialized.")
+    return _tjs_parser.parse(tjs_filepath)
 
-        elif ch == ']':
-            if not stack:
-                raise ValueError('Unmatched ] at pos %d' % i)
-            t = stack.pop()
-            out.append('}' if t == 'object' else ']')
-            i += 1
-
-        else:
-            out.append(ch)
-            i += 1
-
-    if stack:
-        raise ValueError('Unclosed bracket(s): %s' % stack)
-
-    json_text = ''.join(out)
-
-    json_text = re.sub(
-        r'(:\s*)([A-Za-z_]\w*)\b',
-        lambda m: f'{m.group(1)}"{m.group(2)}"',
-        json_text
-    )
-
-    return json_text
-
-
-
-if __name__ == "__main__":
-    with open(r"C:\Users\MLChinoo\Desktop\3lj_data_full\bgimage\base.stage", mode="r", encoding="UTF-16") as file:
-        raw = file.read()
-    converted = parse_base_stage_to_json5(raw)
-    print(converted)
-    test = json5.loads(converted)
-    pass
+def load(tjs_filepath: Path):
+    return json.loads(parse(tjs_filepath))

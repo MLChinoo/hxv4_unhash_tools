@@ -34,5 +34,8 @@ def collect(self, imagediffmap_csv_filepath):
                             f"{filename}.psb",
                             f"{filename}_censored.psb",
                             f"savethum_{filename}.psb",
+                            f"{filename}.tlg",
+                            f"{filename}_censored.tlg",
+                            f"savethum_{filename}.tlg",
                         ])
     return self

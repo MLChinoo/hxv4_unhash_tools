@@ -55,7 +55,7 @@ def collect(self, charvoice_csv_filepath):
             if len(row) > 0:
                 header = row[0].replace("\ufeff", "")  # remove bom
                 if not header.startswith("#") and not header.startswith("DEFAULT"):
-                    char_prefix = row[1].split("_")[0]
+                    char_prefix = row[1].split("_")[0].replace("%s", "")
                     for sys_voice_suffix in sys_voice_suffixes:
                         self.filename_plaintexts.add(f"{char_prefix}_{sys_voice_suffix}.ogg")
     return self

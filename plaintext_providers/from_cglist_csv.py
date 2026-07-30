@@ -26,14 +26,17 @@ def collect(self, cglist_csv_filepath: str):
                 f"{cg_filename}_censored.jpg",
                 f"{cg_filename}_censored.png",
                 f"{cg_filename}.psb",
-                f"{cg_filename}_censored.psb"
+                f"{cg_filename}_censored.psb",
+                f"{cg_filename}.tlg",
+                f"{cg_filename}_censored.tlg"
             ])
             if cg_filename.startswith("thum_"):
                 self.filename_plaintexts.update([
                     # savethum必定censored
                     f"save{cg_filename}.jpg",
                     f"save{cg_filename}.png",
-                    f"save{cg_filename}.psb"
+                    f"save{cg_filename}.psb",
+                    f"save{cg_filename}.tlg"
                 ])
             # ev:
             if cg_filename.startswith("thum_ev"):
@@ -59,14 +62,22 @@ def collect(self, cglist_csv_filepath: str):
                                 f"thum_{filename}.psb",
                                 f"thum_{filename}_censored.psb",
                                 f"savethum_{filename}.psb",
-                                f"{filename}.png"
+                                f"{filename}.png",
+                                f"{filename}.tlg",
+                                f"{filename}_censored.tlg",
+                                f"thum_{filename}.tlg",
+                                f"thum_{filename}_censored.tlg",
+                                f"savethum_{filename}.tlg",
+                                f"{filename}.tlg",
+                                f"{filename}_censored.tlg"
                             ])
             # sd:
             if cg_filename.startswith("thum_sd"):  # thum_sd001
                 sd_name = cg_filename[5:]  # sd001
                 self.filename_plaintexts.update((
                     f"{sd_name}.mtn",
-                    f"{sd_name}.psb"
+                    f"{sd_name}.psb",
+                    f"{sd_name}.tlg"
                 ))
                 for sd_diff in row[1:]:
                     sd_diff = sd_diff.strip()  # sd001a01
@@ -74,6 +85,7 @@ def collect(self, cglist_csv_filepath: str):
                         f"{sd_diff}.jpg",
                         f"{sd_diff}.png",
                         f"{sd_diff}.asd",
-                        f"{sd_diff}.psb"
+                        f"{sd_diff}.psb",
+                        f"{sd_diff}.tlg"
                     ))
     return self

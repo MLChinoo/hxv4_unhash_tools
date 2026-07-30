@@ -28,5 +28,7 @@ def collect(self, scenelist_csv_filepath):
                             f"{filename}_censored.png",
                             f"{filename}.psb",
                             f"{filename}_censored.psb",
+                            f"{filename}.tlg",
+                            f"{filename}_censored.tlg",
                         ])
     return self

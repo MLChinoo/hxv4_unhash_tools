@@ -52,7 +52,7 @@ def collect(self, voice_dirs: Iterable, check_file_existence = False):
         maxnum += 5
         for num in range(1, maxnum + 1):
             voice_name = f"{prefix}_{num:0{size}d}"
-            for suffix in {"", "a", "b", "c"}:  # 暂时未发现其它字母后缀
+            for suffix in {"", "a", "b", "c", "_ref", "_ref2"}:  # 暂时未发现其它字母后缀
                 voice_name_suffix = voice_name + suffix
                 self.filename_plaintexts.update([
                     f"{voice_name_suffix}.ogg",

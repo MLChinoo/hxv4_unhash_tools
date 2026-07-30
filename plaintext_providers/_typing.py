@@ -10,6 +10,9 @@ if TYPE_CHECKING:
 
 
 class PlainDictProviders:
+    def add_char_sys_voices(self, charvoice_csv_filepath: str, sysse_ini_filepath: str, file_encoding: str = 'utf-16le') -> PlainDict:
+        ...
+
     def duplicate_lower(self) -> PlainDict:
         ...
 
@@ -19,13 +22,7 @@ class PlainDictProviders:
     def from_base_stage(self, base_stage_filepath: str, file_encoding: str) -> PlainDict:
         ...
 
-    def from_bgv_csv(self, voice_dir, file_encoding: str = 'utf-16le') -> PlainDict:
-        ...
-
     def from_cglist_csv(self, cglist_csv_filepath: str, file_encoding: str = 'utf-16le') -> PlainDict:
-        ...
-
-    def from_charvoice_csv(self, charvoice_csv_filepath, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
     def from_chthum_index_pbd(self, chthum_index_pbd_filepath) -> PlainDict:
@@ -43,13 +40,13 @@ class PlainDictProviders:
     def from_imagedressmap_txt(self, imagedressmap_txt_filepath, file_encoding: str) -> PlainDict:
         ...
 
-    def from_imageevalmap_csv(self, imageevalmap_csv_filepath, file_encoding: str) -> PlainDict:
+    def from_imageevalmap_csv(self, imageevalmap_csv_filepath, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
     def from_imagemulti_txt(self, imagemulti_txt_filepath, file_encoding: str) -> PlainDict:
         ...
 
-    def from_imagenamemap_txt(self, imagenamemap_txt_filepath, file_encoding: str) -> PlainDict:
+    def from_imagenamemap_txt(self, imagenamemap_txt_filepath, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
     def from_imagepropmap_txt(self, imagepropmap_txt_filepath, file_encoding: str) -> PlainDict:
@@ -70,7 +67,10 @@ class PlainDictProviders:
     def from_soundlist_csv(self, soundlist_csv_filepath, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
-    def from_tlgref_files(self, tlgref_dir: str) -> PlainDict:
+    def scan_bgv_csv(self, voice_dir, file_encoding: str = 'utf-16le') -> PlainDict:
+        ...
+
+    def scan_evimage_tlgrefs(self, evimage_dir: str) -> PlainDict:
         ...
 
     def scan_fgimage_stands(self, fgimage_dir, file_encoding: str = 'utf-16le') -> PlainDict:
@@ -79,7 +79,7 @@ class PlainDictProviders:
     def scan_psb_and_decompile(self, scn_dir: str) -> PlainDict:
         ...
 
-    def scan_psb_and_decompile_enhanced(self, scn_dir: str, file_encoding: str = 'UTF-8') -> PlainDict:
+    def scan_psb_and_decompile_enhanced(self, scn_dir: str) -> PlainDict:
         ...
 
     def scan_uipsd_multi_lang(self, uipsd_dir: str) -> PlainDict:

@@ -6,11 +6,12 @@
 import re
 from pathlib import Path
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="scan_uipsd_multi_lang")
-def collect(self, uipsd_dir: str):
+def collect(self: PlainDict, uipsd_dir: str):
     uipsd_bases = set()
     for child in Path(uipsd_dir).rglob("*"):
         if child.is_file():
@@ -18,7 +19,6 @@ def collect(self, uipsd_dir: str):
             if match:
                 uipsd_bases.add(match.group(1))
 
-    count = 0
     suffixes = [
         ".pbd",
         "__bg0.tlg",
@@ -37,11 +37,4 @@ def collect(self, uipsd_dir: str):
     for uipsd_base in uipsd_bases:
         for suffix in suffixes:
             self.filename_plaintexts.add(f"{uipsd_base}{suffix}")
-            count += 1
-
-    if count > 0:
-        print(
-            f"[uipsd] 从 {len(uipsd_bases)} 个 UI 基础名"
-            f"生成了 {count} 个文件名"
-        )
     return self

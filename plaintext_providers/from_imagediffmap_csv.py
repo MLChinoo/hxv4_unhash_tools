@@ -4,12 +4,12 @@
 
 import csv
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="from_imagediffmap_csv")
-def collect(self, imagediffmap_csv_filepath, file_encoding: str = "utf-16le"):
-    count = 0
+def collect(self: PlainDict, imagediffmap_csv_filepath, file_encoding: str = "utf-16le"):
     with open(imagediffmap_csv_filepath, mode="r", encoding=file_encoding) as f:
         imagediffmap_csv = csv.reader(f)
         for row in imagediffmap_csv:
@@ -42,6 +42,4 @@ def collect(self, imagediffmap_csv_filepath, file_encoding: str = "utf-16le"):
                     f"savethum_{filename}.psb",
                     f"savethum_{filename}.tlg"
                 ])
-            count += 1
-    print(f"[imagediffmap.csv] 提取了 {count} 个图片差分条目")
     return self

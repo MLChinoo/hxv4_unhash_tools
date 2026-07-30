@@ -32,7 +32,6 @@ def collect(self: PlainDict, base_stage_filepath: str, file_encoding: str):
                         if entry_3["key"]["value"] == "prefix":
                             season_prefixes.add(entry_3["value"]["value"])
 
-        count = 0
         for entry_1 in base_stage_json["document"]["expression"]["entries"]:
             if entry_1["key"]["value"] == "stages":
                 for entry_2 in entry_1["value"]["entries"]:
@@ -51,8 +50,6 @@ def collect(self: PlainDict, base_stage_filepath: str, file_encoding: str):
                                         f"bgthum_{image_filename}{locale_suffix}.jpg",
                                         f"bgthum_{image_filename}{locale_suffix}.png"
                                     ])
-                                    count += 1
-        print(f"[base.stage] 提取了 {count} 个背景图条目")
     except Exception:
         print("[base.stage] 解析失败:")
         traceback.print_exc()

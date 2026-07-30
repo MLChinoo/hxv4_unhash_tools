@@ -5,12 +5,12 @@
 
 import csv
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="from_scenelist_csv")
-def collect(self, scenelist_csv_filepath, file_encoding: str = "utf-16le"):
-    count = 0
+def collect(self: PlainDict, scenelist_csv_filepath, file_encoding: str = "utf-16le"):
     with open(scenelist_csv_filepath, mode="r", encoding=file_encoding) as f:
         scenelist_csv = csv.reader(f)
         for row in scenelist_csv:
@@ -33,6 +33,4 @@ def collect(self, scenelist_csv_filepath, file_encoding: str = "utf-16le"):
                         f"{filename}{locale}_censored.psb",
                         f"{filename}{locale}_censored.tlg"
                     ])
-            count += 1
-    print(f"[scenelist.csv] 提取了 {count} 个场景条目")
     return self

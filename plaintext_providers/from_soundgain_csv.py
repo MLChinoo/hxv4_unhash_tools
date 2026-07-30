@@ -4,12 +4,12 @@
 
 import csv
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="from_soundgain_csv")
-def collect(self, soundgain_csv_filepath, file_encoding: str):
-    count = 0
+def collect(self: PlainDict, soundgain_csv_filepath, file_encoding: str):
     with open(soundgain_csv_filepath, mode="r", encoding=file_encoding) as f:
         soundgain_csv = csv.reader(f)
         for row in soundgain_csv:
@@ -20,8 +20,4 @@ def collect(self, soundgain_csv_filepath, file_encoding: str):
                 continue
             for extension in (".ogg", ".ogg.sli"):
                 self.filename_plaintexts.add(f"{sound_name}{extension}")
-            count += 1
-
-    if count > 0:
-        print(f"[soundgain] 提取了 {count} 个音效区分名")
     return self

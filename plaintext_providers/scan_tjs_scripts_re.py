@@ -5,12 +5,12 @@
 import re
 from pathlib import Path
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="scan_tjs_scripts_re")
-def collect(self, tjs_dir: str, file_encoding: str):
-    count = 0
+def collect(self: PlainDict, tjs_dir: str, file_encoding: str):
     seen = set()
     pattern = re.compile(r'["\']([^"\'\s]+\.(?:tjs|ks|ini|csv|txt|png|jpg|tlg|pimg|ogg|mp4|wmv|psb|pbd|stand|sinfo|mtn|stage|toml))["\']')
     for child in Path(tjs_dir).rglob("*"):
@@ -29,8 +29,4 @@ def collect(self, tjs_dir: str, file_encoding: str):
                 self.filename_plaintexts.add(reference)
                 if reference.endswith(".ks"):
                     self.filename_plaintexts.add(f"{reference}.scn")
-                count += 1
-
-    if count > 0:
-        print(f"[tjs_scripts] 提取了 {count} 个文件名引用")
     return self

@@ -7,11 +7,12 @@
 import re
 from itertools import product
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="from_replay_ks")
-def collect(self, replay_ks_filepath, file_encoding: str = "utf-16le"):
+def collect(self: PlainDict, replay_ks_filepath, file_encoding: str = "utf-16le"):
     movie_names = ["op"]
     locales = ("", "jp_", "en_", "cn_", "tw_")
     extensions = ("mp4", "wmv")
@@ -30,5 +31,4 @@ def collect(self, replay_ks_filepath, file_encoding: str = "utf-16le"):
             f"{locale}{movie_name}_1080.{extension}",
             f"{locale}{movie_name}720p.{extension}",
         ])
-    print(f"[replay.ks] 提取了 {len(movie_names)} 个影片名称")
     return self

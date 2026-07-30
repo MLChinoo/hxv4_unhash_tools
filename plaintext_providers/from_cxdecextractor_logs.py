@@ -5,16 +5,14 @@
 import traceback
 from pathlib import Path
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="from_cxdecextractor_logs")
-def collect(self, directory_hash_log_filepath: str, filename_hash_log_filepath: str, file_encoding: str = "utf-16le"):
+def collect(self: PlainDict, directory_hash_log_filepath: str, filename_hash_log_filepath: str, file_encoding: str = "utf-16le"):
     directory_hash_log_filepath = Path(directory_hash_log_filepath)
     filename_hash_log_filepath = Path(filename_hash_log_filepath)
-    filename_count = 0
-    pathname_count = 0
-
     if filename_hash_log_filepath.exists():
         try:
             with open(filename_hash_log_filepath, mode="r", encoding=file_encoding) as f:
@@ -25,7 +23,6 @@ def collect(self, directory_hash_log_filepath: str, filename_hash_log_filepath: 
                     filename = line.split("##YSig##", 1)[0].strip()
                     if filename and filename != "%EmptyString%":
                         self.filename_plaintexts.add(filename)
-                        filename_count += 1
         except Exception:
             traceback.print_exc()
 
@@ -39,13 +36,6 @@ def collect(self, directory_hash_log_filepath: str, filename_hash_log_filepath: 
                     pathname = line.split("##YSig##", 1)[0].strip()
                     if pathname and pathname != "%EmptyString%":
                         self.pathname_plaintexts.add(pathname)
-                        pathname_count += 1
         except Exception:
             traceback.print_exc()
-
-    if filename_count > 0 or pathname_count > 0:
-        print(
-            f"[cxdecextractor_logs] 提取了 {filename_count} 个文件名、"
-            f"{pathname_count} 个路径名"
-        )
     return self

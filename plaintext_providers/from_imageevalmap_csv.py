@@ -4,12 +4,12 @@
 
 import csv
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="from_imageevalmap_csv")
-def collect(self, imageevalmap_csv_filepath, file_encoding: str = "utf-16le"):
-    count = 0
+def collect(self: PlainDict, imageevalmap_csv_filepath, file_encoding: str = "utf-16le"):
     with open(imageevalmap_csv_filepath, mode="r", encoding=file_encoding) as f:
         imageevalmap_csv = csv.reader(f)
         for row in imageevalmap_csv:
@@ -28,8 +28,4 @@ def collect(self, imageevalmap_csv_filepath, file_encoding: str = "utf-16le"):
                             f"{image_name}{extension}",
                             f"{image_name}_censored{extension}"
                         ])
-                    count += 1
-
-    if count > 0:
-        print(f"[imageevalmap] 提取了 {count} 个图片名")
     return self

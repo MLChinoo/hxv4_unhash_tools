@@ -2,12 +2,12 @@
 从imagedressmap.txt文件中获取stand文件名
 """
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="from_imagedressmap_txt")
-def collect(self, imagedressmap_txt_filepath, file_encoding: str):
-    count = 0
+def collect(self: PlainDict, imagedressmap_txt_filepath, file_encoding: str):
     with open(imagedressmap_txt_filepath, mode="r", encoding=file_encoding) as f:
         content = f.read()
         for line in content.splitlines():
@@ -20,8 +20,4 @@ def collect(self, imagedressmap_txt_filepath, file_encoding: str):
                 if not stand_name.endswith(".stand"):
                     stand_name = f"{stand_name}.stand"
                 self.filename_plaintexts.add(stand_name)
-                count += 1
-
-    if count > 0:
-        print(f"[imagedressmap] 提取了 {count} 个 stand 文件名")
     return self

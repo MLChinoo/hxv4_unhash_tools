@@ -7,18 +7,18 @@ import subprocess
 import traceback
 from pathlib import Path
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="from_chthum_index_pbd")
-def collect(self, chthum_index_pbd_filepath):
+def collect(self: PlainDict, chthum_index_pbd_filepath):
     def is_valid_pbd(child: Path):
         if not (child.is_file() and child.suffix == ".pbd"):
             return False
         with open(child, "rb") as f:
             return f.read(7) == b"TJS/ns0"
 
-    count = 0
     child = Path(chthum_index_pbd_filepath)
     if is_valid_pbd(child):
         try:
@@ -34,11 +34,8 @@ def collect(self, chthum_index_pbd_filepath):
                         ])
                     else:
                         self.filename_plaintexts.add(filename)
-                    count += 1
             else:
                 raise RuntimeError(f"fail to convert pbd to json: {child}")
         except Exception:
             traceback.print_exc()
-    if count > 0:
-        print(f"[chthum] 提取了 {count} 个角色缩略图文件名")
     return self

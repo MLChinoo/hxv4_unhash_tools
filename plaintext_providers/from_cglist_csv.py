@@ -4,12 +4,12 @@
 
 import csv
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="from_cglist_csv")
-def collect(self, cglist_csv_filepath: str, file_encoding: str = "utf-16le"):
-    count = 0
+def collect(self: PlainDict, cglist_csv_filepath: str, file_encoding: str = "utf-16le"):
     with open(cglist_csv_filepath, mode="r", encoding=file_encoding) as f:
         cglist_csv = csv.reader(f)
         for row in cglist_csv:
@@ -41,7 +41,6 @@ def collect(self, cglist_csv_filepath: str, file_encoding: str = "utf-16le"):
                 f"{cg_name}_censored.png",
                 f"{cg_name}_censored.pimg"
             ])
-            count += 1
             if cg_filename.startswith("thum_"):
                 self.filename_plaintexts.update([
                     # savethum必定censored
@@ -111,5 +110,4 @@ def collect(self, cglist_csv_filepath: str, file_encoding: str = "utf-16le"):
                             f"{sd_diff}{locale}_censored.tlg",
                             f"{sd_diff}{locale}_censored.pimg"
                         ])
-    print(f"[cglist.csv] 提取了 {count} 个 CG 条目")
     return self

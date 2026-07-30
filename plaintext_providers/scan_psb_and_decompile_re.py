@@ -108,7 +108,6 @@ def collect(self: PlainDict, scn_dir: str):
                 except Exception:
                     traceback.print_exc()
 
-    count = 0
     for image_name in image_names:
         if image_name.startswith("ev") or image_name.startswith("sd") or image_name.endswith(".stand"):
             continue
@@ -116,20 +115,15 @@ def collect(self: PlainDict, scn_dir: str):
             self.filename_plaintexts.add(
                 f"{image_name}{extension}"
             )
-            count += 1
         self.filename_plaintexts.update([
             f"bgthum_{image_name}.jpg",
             f"bgthum_{image_name}.png"
         ])
-        count += 2
-
     for sound_name in sound_names:
         for extension in (".ogg", ".ogg.sli", ".opus", ".opus.sli", ".mchx", ".mchx.sli", ".ini"):
             self.filename_plaintexts.add(
                 f"{sound_name}{extension}"
             )
-            count += 1
-
     for scenario_name in scenario_names:
         if not scenario_name.endswith(".ks"):
             continue
@@ -137,15 +131,6 @@ def collect(self: PlainDict, scn_dir: str):
             scenario_name,
             f"{scenario_name}.scn"
         ])
-        count += 2
-
-    if count > 0:
-        print(
-            f"[scn_refs] 从 SCN 提取了 {len(image_names)} 个图片、"
-            f"{len(sound_names)} 个音效、"
-            f"{len(scenario_names)} 个脚本引用"
-            f"（共 {count} 个候选）"
-        )
 
     with open(self.config.psb_type_cache_pkl, mode="wb") as ptcf:
         pickle.dump(psb_type_cache, ptcf)

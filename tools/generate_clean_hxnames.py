@@ -63,7 +63,7 @@ def generate_clean_hxnames(base_hxnames_filepath: Path, deobfuscated_dir: Path, 
 
 if __name__ == "__main__":
     generate_clean_hxnames(
-        base_hxnames_filepath=Path(r"C:\Users\MLChinoo\PycharmProjects\hxv4_deobf_tools\HxNames.lst"),
-        deobfuscated_dir=Path(r"C:\Users\MLChinoo\Desktop\3lj_data_full"),
-        save_filepath=Path(r"C:\Users\MLChinoo\PycharmProjects\hxv4_deobf_tools\HxNames-LLLJ.lst")
+        base_hxnames_filepath=Path(r"C:\Users\MLChinoo\PycharmProjects\hxv4_unhash_tools\HxNames.lst"),
+        deobfuscated_dir=Path(r"D:\gals\dumps\dracu_dumps"),
+        save_filepath=Path(r"C:\Users\MLChinoo\PycharmProjects\hxv4_unhash_tools\HxNames-Dracu.lst")
     )

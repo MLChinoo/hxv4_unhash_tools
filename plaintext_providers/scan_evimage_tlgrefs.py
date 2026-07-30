@@ -5,12 +5,12 @@
 import struct
 from pathlib import Path
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="scan_evimage_tlgrefs")
-def collect(self, evimage_dir: str):
-    count = 0
+def collect(self: PlainDict, evimage_dir: str):
     for child in Path(evimage_dir).rglob("*"):
         if not child.is_file():
             continue
@@ -40,10 +40,6 @@ def collect(self, evimage_dir: str):
             filename = "".join(characters)
             if filename and ".tlg" in filename:
                 self.filename_plaintexts.add(filename)
-                count += 1
         except OSError:
             pass
-
-    if count > 0:
-        print(f"[tlgref] 提取了 {count} 个被引用的 TLG 文件名")
     return self

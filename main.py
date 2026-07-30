@@ -11,7 +11,7 @@ import utils.tjs_parser
 
 current_config = Config(
     project_dir=Path(__file__).resolve().parent,
-    rename_dir=Path(r"D:\gals\dumps\lemonade_dumps"),
+    rename_dir=Path(r"D:\gals\dumps\dracu_dumps"),
 )
 
 # 在这里添加明文字典来源；直接修改、添加或注释链式调用并填写参数。
@@ -25,28 +25,28 @@ def build_plain_dictionary():
             filenames=[
                 "base.stage",
                 "cglist.csv",
-                "soundlist.csv",
                 "charvoice.csv",
+                "_chthum_index.pbd",
                 "imagediffmap.csv",
+                "imageevalmap.csv",
+                "replay.ks",
+                "savelist.csv",
                 "savelist.csv",
                 "scenelist.csv",
-                "replay.ks",
-                "_chthum_index.pbd",
-                "charlist.csv",
-                "standlevel.tjs",
-                "facepos.txt",
-                "facepos.csv"
+                "soundlist.csv",
             ],
         )
-        # .from_unobfuscated_directory(
-        #     r"C:\Users\MLChinoo\Desktop\3lj_data"
-        # )
+         .scan_unobfuscated_directory(
+             r"D:\gals\dumps\dracu_dumps"
+         )
         # .scan_psb_and_decompile(
         #     r"C:\Users\MLChinoo\Desktop\3lj_data_full\scn"
         # )
-        .from_base_stage(
-            r"D:\gals\dumps\lemonade_dumps\bgimage\base.stage"
-        )
+        # .from_base_stage(
+        #     r"D:\gals\dumps\lemonade_dumps\bgimage\base.stage"
+        # )
+        #.scan_uipsd_pbds(uipsd_dir=r"D:\gals\dumps\dracu_dumps\data\uipsd")
+        #.scan_uipsd_multi_lang(uipsd_dir=r"D:\gals\dumps\dracu_dumps\data\uipsd")
         # .from_cglist_csv(
         #     r"C:\Users\MLChinoo\Desktop\3lj_data_full\patch\cglist.csv"
         # )

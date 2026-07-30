@@ -6,12 +6,12 @@
 import re
 from pathlib import Path
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="scan_fgimage_stands")
-def collect(self, fgimage_dir, file_encoding: str = "utf-16le"):
-    count = 0
+def collect(self: PlainDict, fgimage_dir, file_encoding: str = "utf-16le"):
     for child in Path(fgimage_dir).rglob("*.stand"):
         if child.is_file():
             with open(child, mode="r", encoding=file_encoding) as cf:
@@ -25,7 +25,4 @@ def collect(self, fgimage_dir, file_encoding: str = "utf-16le"):
                         f"{filename}_0.sinfo",
                         f"{filename}_info.txt"
                     ])
-                    count += 1
-    if count > 0:
-        print(f"[stand] 提取了 {count} 个立绘条目")
     return self

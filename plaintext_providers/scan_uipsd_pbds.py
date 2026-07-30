@@ -19,7 +19,6 @@ def collect(self: PlainDict, uipsd_dir: str):
         with open(child, "rb") as f:
             return f.read(7) == b"TJS/ns0"
 
-    count = 0
     for child in Path(uipsd_dir).rglob("*"):
         print(child.resolve())
         if is_valid_pbd(child):
@@ -35,6 +34,4 @@ def collect(self: PlainDict, uipsd_dir: str):
                     raise RuntimeError(f"fail to convert pbd to json: {child}")
             except Exception:
                 traceback.print_exc()
-    if count > 0:
-        print(f"[scan_uipsd_pbds] 提取了 {count} 个 tlg 文件名")
     return self

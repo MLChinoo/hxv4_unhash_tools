@@ -6,11 +6,12 @@
 import os
 import re
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="from_krkrdump_logs")
-def collect(self, krkrdump_dir):
+def collect(self: PlainDict, krkrdump_dir):
     for filename in os.listdir(krkrdump_dir):
         if all((filename.startswith("KrkrDump-"), filename.endswith(".log"))):
             print(f"current log: {filename}")

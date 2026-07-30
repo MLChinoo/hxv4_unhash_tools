@@ -2,11 +2,12 @@
 从systrans.ini文件中获取转场规则文件名
 """
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="from_systrans_ini")
-def collect(self, systrans_ini_filepath, file_encoding: str):
+def collect(self: PlainDict, systrans_ini_filepath, file_encoding: str):
     rules = set()
     with open(systrans_ini_filepath, mode="r", encoding=file_encoding) as f:
         content = f.read()
@@ -24,12 +25,7 @@ def collect(self, systrans_ini_filepath, file_encoding: str):
                 if part and not part.isdigit() and not part.startswith("@"):
                     rules.add(part)
 
-    count = 0
     for rule in rules:
         for extension in (".png", ".pimg", ".tlg", ".psb"):
             self.filename_plaintexts.add(f"{rule}{extension}")
-        count += 1
-
-    if count > 0:
-        print(f"[systrans] 提取了 {count} 个转场规则名")
     return self

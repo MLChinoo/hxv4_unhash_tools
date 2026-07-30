@@ -2,12 +2,12 @@
 从imagenamemap.txt文件中获取图片名和censored映射文件名
 """
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="from_imagenamemap_txt")
-def collect(self, imagenamemap_txt_filepath, file_encoding: str = "utf-16le"):
-    count = 0
+def collect(self: PlainDict, imagenamemap_txt_filepath, file_encoding: str = "utf-16le"):
     with open(imagenamemap_txt_filepath, mode="r", encoding=file_encoding) as f:
         content = f.read()
         for line in content.splitlines():
@@ -23,8 +23,4 @@ def collect(self, imagenamemap_txt_filepath, file_encoding: str = "utf-16le"):
                             f"{part}{extension}",
                             f"{part}_censored{extension}"
                         ])
-                    count += 1
-
-    if count > 0:
-        print(f"[imagenamemap] 提取了 {count} 个图片名")
     return self

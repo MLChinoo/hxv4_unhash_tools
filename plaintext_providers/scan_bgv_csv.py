@@ -7,12 +7,12 @@
 import csv
 from pathlib import Path
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="scan_bgv_csv")
-def collect(self, voice_dir, file_encoding: str = "utf-16le"):
-    count = 0
+def collect(self: PlainDict, voice_dir, file_encoding: str = "utf-16le"):
     for child in Path(voice_dir).rglob("*"):
         # 假设文件名以bgv开头，扩展名为.csv
         if all([child.is_file(), child.stem.startswith("bgv"), child.suffix == ".csv"]):
@@ -28,7 +28,4 @@ def collect(self, voice_dir, file_encoding: str = "utf-16le"):
                             f"{voice_name}.opus.sli",
                             f"{voice_name}.ini"
                         ])
-                        count += 1
-    if count > 0:
-        print(f"[bgv_csv] 提取了 {count} 个背景语音条目")
     return self

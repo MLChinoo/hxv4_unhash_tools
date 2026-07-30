@@ -4,12 +4,12 @@
 
 import csv
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="from_savelist_csv")
-def collect(self, savelist_csv_filepath, file_encoding: str = "utf-16le"):
-    count = 0
+def collect(self: PlainDict, savelist_csv_filepath, file_encoding: str = "utf-16le"):
     with open(savelist_csv_filepath, mode="r", encoding=file_encoding) as f:
         savelist_csv = csv.reader(f)
         for row in savelist_csv:
@@ -27,6 +27,4 @@ def collect(self, savelist_csv_filepath, file_encoding: str = "utf-16le"):
                 f'{filename.replace("savethum_", "thum_")}.png',
                 f'{filename.replace("savethum_", "thum_")}.psb'
             ])
-            count += 1
-    print(f"[savelist.csv] 提取了 {count} 个存档条目")
     return self

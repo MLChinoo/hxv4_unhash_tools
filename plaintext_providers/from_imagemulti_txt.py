@@ -2,12 +2,12 @@
 从imagemulti.txt文件中获取fgimage立绘文件名
 """
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="from_imagemulti_txt")
-def collect(self, imagemulti_txt_filepath, file_encoding: str):
-    count = 0
+def collect(self: PlainDict, imagemulti_txt_filepath, file_encoding: str):
     with open(imagemulti_txt_filepath, mode="r", encoding=file_encoding) as f:
         content = f.read()
         for line in content.splitlines():
@@ -23,8 +23,4 @@ def collect(self, imagemulti_txt_filepath, file_encoding: str):
                     continue
                 for extension in (".pbd", ".sinfo", ".pimg", ".stand"):
                     self.filename_plaintexts.add(f"{part}{extension}")
-                count += 1
-
-    if count > 0:
-        print(f"[imagemulti] 提取了 {count} 个立绘名")
     return self

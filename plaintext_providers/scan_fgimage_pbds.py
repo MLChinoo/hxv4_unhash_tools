@@ -8,18 +8,18 @@ import subprocess
 import traceback
 from pathlib import Path
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="from_fgimage_pbd_files")
-def collect(self, fgimage_dir):
+def collect(self: PlainDict, fgimage_dir):
     def is_valid_pbd(child: Path):
         if not (child.is_file() and child.suffix == ".pbd"):
             return False
         with open(child, "rb") as f:
             return f.read(7) == b"TJS/4s0"
 
-    count = 0
     for child in Path(fgimage_dir).rglob("*"):
         if is_valid_pbd(child):
             # _0本身就是character_prefix的一部分，没有必要额外处理（梓a.pbd, 梓a_0.pbd）
@@ -35,11 +35,8 @@ def collect(self, fgimage_dir):
                                 f'{character_prefix}_{pbd_item["layer_id"]}.tlg',
                                 f'{character_prefix}_{pbd_item["layer_id"]}.png'
                             ])
-                            count += 1
                 else:
                     raise RuntimeError(f"fail to convert pbd to json: {child}")
             except Exception:
                 traceback.print_exc()
-    if count > 0:
-        print(f"[pbd] 提取了 {count} 个 tlg 图层文件名")
     return self

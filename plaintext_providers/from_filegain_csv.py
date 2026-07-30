@@ -4,12 +4,12 @@
 
 import csv
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="from_filegain_csv")
-def collect(self, filegain_csv_filepath, file_encoding: str):
-    count = 0
+def collect(self: PlainDict, filegain_csv_filepath, file_encoding: str):
     with open(filegain_csv_filepath, mode="r", encoding=file_encoding) as f:
         filegain_csv = csv.reader(f)
         for row in filegain_csv:
@@ -20,8 +20,4 @@ def collect(self, filegain_csv_filepath, file_encoding: str):
                 continue
             for extension in (".ogg", ".ogg.sli", ".opus", ".opus.sli", ".mchx", ".mchx.sli"):
                 self.filename_plaintexts.add(f"{sound_name}{extension}")
-            count += 1
-
-    if count > 0:
-        print(f"[filegain] 提取了 {count} 个音效/BGM 名")
     return self

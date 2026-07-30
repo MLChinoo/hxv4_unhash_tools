@@ -4,12 +4,13 @@
 
 from pathlib import Path
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 from utils.krkr_hxv4_hash import is_file_hash
 
 
 @register(name="scan_locale_files")
-def collect(self, locale_dir: str):
+def collect(self: PlainDict, locale_dir: str):
     locale_suffixes = ["", "_cn", "_en", "_tw", "_jp"]
     locale_bases = set()
     for child in Path(locale_dir).rglob("*"):
@@ -28,13 +29,8 @@ def collect(self, locale_dir: str):
                 locale_bases.add((base_name, ""))
                 break
 
-    count = 0
     for base_name, extension in locale_bases:
         for locale_suffix in locale_suffixes:
             filename = f"{base_name}{locale_suffix}{extension}"
             self.filename_plaintexts.add(filename)
-            count += 1
-
-    if count > 0:
-        print(f"[locale_files] 从 {len(locale_bases)} 个基础名生成了 {count} 个语言变体")
     return self

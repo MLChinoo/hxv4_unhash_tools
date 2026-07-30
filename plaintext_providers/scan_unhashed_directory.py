@@ -6,11 +6,12 @@
 import os
 from utils.krkr_hxv4_hash import is_path_hash, is_file_hash
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="scan_unhashed_directory")
-def collect(self, base_dir: str):
+def collect(self: PlainDict, base_dir: str):
     for root, dirs, files in os.walk(base_dir):
         rel_path = os.path.relpath(root, base_dir).replace("\\", "/")
         if rel_path == ".":

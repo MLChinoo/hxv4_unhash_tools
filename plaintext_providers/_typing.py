@@ -13,7 +13,7 @@ class PlainDictProviders:
     def add_char_sys_voices(self, charvoice_csv_filepath, file_encoding: str) -> PlainDict:
         ...
 
-    def add_movies(self, replay_ks_filepath) -> PlainDict:
+    def add_movies(self, replay_ks_filepath, file_encoding: str = "utf-16le") -> PlainDict:
         ...
 
     def duplicate_lower(self) -> PlainDict:
@@ -25,7 +25,7 @@ class PlainDictProviders:
     def from_base_stage(self, base_stage_filepath: str, file_encoding: str) -> PlainDict:
         ...
 
-    def from_bgv_csv(self, voice_dir) -> PlainDict:
+    def from_bgv_csv(self, voice_dir, file_encoding: str = "utf-16le") -> PlainDict:
         ...
 
     def from_cglist_csv(self, cglist_csv_filepath: str, file_encoding: str) -> PlainDict:

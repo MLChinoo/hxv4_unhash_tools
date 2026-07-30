@@ -118,7 +118,7 @@ def collect(self: PlainDict, scn_dir: str):
             self.filename_plaintexts.add(
                 f"{filename}.tlg"
             )
-        elif data_item.get("class") == "sdlayer" and "redraw" in data_item.keys():
+        elif data_item.get("class") in ("sdlayer", "topcenterlayer", "bottomcenterlayer", "centerlayer") and "redraw" in data_item.keys():
             # sd图层
             filename = data_item["redraw"]["imageFile"]["file"]
             self.filename_plaintexts.add(

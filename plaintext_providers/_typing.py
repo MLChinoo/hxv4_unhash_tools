@@ -31,6 +31,9 @@ class PlainDictProviders:
     def from_chthum_index_pbd(self, chthum_index_pbd_filepath) -> PlainDict:
         ...
 
+    def from_cxdecextractor_logs(self, directory_hash_log_filepath: str, filename_hash_log_filepath: str, file_encoding: str = 'utf-16le') -> PlainDict:
+        ...
+
     def from_fgimage_pbd_files(self, fgimage_dir) -> PlainDict:
         ...
 
@@ -59,6 +62,9 @@ class PlainDictProviders:
         ...
 
     def scan_psb_and_decompile(self, scn_dir: str) -> PlainDict:
+        ...
+
+    def scan_psb_and_decompile_enhanced(self, scn_dir: str, file_encoding: str = 'UTF-8') -> PlainDict:
         ...
 
     def scan_uipsd_multi_lang(self, uipsd_dir: str) -> PlainDict:

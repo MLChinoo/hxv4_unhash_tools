@@ -43,6 +43,9 @@ class PlainDictProviders:
     def from_imageevalmap_csv(self, imageevalmap_csv_filepath, file_encoding: str) -> PlainDict:
         ...
 
+    def from_imagenamemap_txt(self, imagenamemap_txt_filepath, file_encoding: str) -> PlainDict:
+        ...
+
     def from_krkrdump_logs(self, krkrdump_dir) -> PlainDict:
         ...
 

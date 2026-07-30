@@ -22,7 +22,7 @@ class PlainDictProviders:
     def find_missing_voices(self, voice_dirs: Iterable, check_file_existence = False) -> PlainDict:
         ...
 
-    def from_base_stage(self, base_stage_filepath: str) -> PlainDict:
+    def from_base_stage(self, base_stage_filepath: str, file_encoding: str) -> PlainDict:
         ...
 
     def from_bgv_csv(self, voice_dir) -> PlainDict:

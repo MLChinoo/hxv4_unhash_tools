@@ -11,11 +11,12 @@ import traceback
 from pathlib import Path
 from contextlib import suppress
 
+from plain_dict import PlainDict
 from plaintext_providers import register
 
 
 @register(name="scan_psb_and_decompile")
-def collect(self, scn_dir: str):
+def collect(self: PlainDict, scn_dir: str):
     def is_psb_file(path) -> bool:
         path = Path(path)
         if not path.is_file():
@@ -95,10 +96,16 @@ def collect(self, scn_dir: str):
         elif data_item.get("class") == "event":
             if data_item.get("name") == "ev" and "redraw" in data_item.keys():
                 # 在lines中获取image
-                filename = data_item["redraw"]["imageFile"]["file"]
-                self.filename_plaintexts.add(
-                    f"{filename}.png"
-                )
+                filename_rawline: str = data_item["redraw"]["imageFile"]["file"]  # "mtile,ed_nicola_roll.tjs"
+                for filename in filename_rawline.split(","):
+                    filename = filename.strip()
+                    if "." in filename:  # ed_nicola_roll.tjs
+                        self.filename_plaintexts.add(filename)
+                        if filename.endswith(".tjs"): # ed_nicola_roll.tjs
+                            for locale in ("_jp", "_en", "_cn", "_tw"):
+                                self.filename_plaintexts.add(filename.replace(".tjs", f"{locale}.ini"))
+                    else:  # 空_夜
+                        self.filename_plaintexts.add(f"{filename}.png")
             elif data_item.get("name") == "bg_voice" and "redraw" in data_item.keys():
                 # 背景对话文件 bg_voice (e.g. bgv007_07_歓声.csv)
                 filename_with_ext = data_item["redraw"]["imageFile"]["file"]["storage"]

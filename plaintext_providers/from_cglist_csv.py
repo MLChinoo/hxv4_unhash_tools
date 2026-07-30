@@ -61,30 +61,30 @@ def collect(self, cglist_csv_filepath: str, file_encoding: str = "utf-16le"):
                         cg_name_last_pos = cg_diff.find(cg_name) + len(cg_name)
                         for cg_diff_last_pos in range(cg_name_last_pos, len(cg_diff)+1):
                             filename = f"{cg_name}{cg_diff[cg_name_last_pos:cg_diff_last_pos]}"
-                            for locale_suffix in ("", "_en", "_cn", "_tw"):
+                            for locale in ("", "_jp", "_en", "_cn", "_tw"):
                                 self.filename_plaintexts.update([
-                                    f"{filename}{locale_suffix}.pimg",
-                                    f"{filename}{locale_suffix}_censored.pimg",
-                                    f"{filename}{locale_suffix}.tlg",
-                                    f"{filename}{locale_suffix}_censored.tlg",
-                                    f"{filename}{locale_suffix}.psb",
-                                    f"{filename}{locale_suffix}_censored.psb",
-                                    f"{filename}{locale_suffix}.png",
-                                    f"{filename}{locale_suffix}_censored.png"
+                                    f"{filename}{locale}.pimg",
+                                    f"{filename}{locale}_censored.pimg",
+                                    f"{filename}{locale}.tlg",
+                                    f"{filename}{locale}_censored.tlg",
+                                    f"{filename}{locale}.psb",
+                                    f"{filename}{locale}_censored.psb",
+                                    f"{filename}{locale}.png",
+                                    f"{filename}{locale}_censored.png"
                                     
-                                    f"thum_{filename}{locale_suffix}.png",
-                                    f"thum_{filename}{locale_suffix}_censored.png",
-                                    f"thum_{filename}{locale_suffix}.jpg",
-                                    f"thum_{filename}{locale_suffix}_censored.jpg",
-                                    f"thum_{filename}{locale_suffix}.psb",
-                                    f"thum_{filename}{locale_suffix}_censored.psb",
-                                    f"thum_{filename}{locale_suffix}.tlg",
-                                    f"thum_{filename}{locale_suffix}_censored.tlg",
+                                    f"thum_{filename}{locale}.png",
+                                    f"thum_{filename}{locale}_censored.png",
+                                    f"thum_{filename}{locale}.jpg",
+                                    f"thum_{filename}{locale}_censored.jpg",
+                                    f"thum_{filename}{locale}.psb",
+                                    f"thum_{filename}{locale}_censored.psb",
+                                    f"thum_{filename}{locale}.tlg",
+                                    f"thum_{filename}{locale}_censored.tlg",
                                     
-                                    f"savethum_{filename}{locale_suffix}.png",
-                                    f"savethum_{filename}{locale_suffix}.jpg",
-                                    f"savethum_{filename}{locale_suffix}.psb",
-                                    f"savethum_{filename}{locale_suffix}.tlg",
+                                    f"savethum_{filename}{locale}.png",
+                                    f"savethum_{filename}{locale}.jpg",
+                                    f"savethum_{filename}{locale}.psb",
+                                    f"savethum_{filename}{locale}.tlg",
                                 ])
             # sd:
             if cg_filename.startswith("thum_sd"):  # thum_sd001
@@ -98,18 +98,18 @@ def collect(self, cglist_csv_filepath: str, file_encoding: str = "utf-16le"):
                     sd_diff = sd_diff.strip().replace("\t", "")  # sd001a01
                     if sd_diff == "":
                         continue
-                    for locale_suffix in ("", "_en", "_cn", "_tw"):
-                        self.filename_plaintexts.update((
-                            f"{sd_diff}{locale_suffix}.jpg",
-                            f"{sd_diff}{locale_suffix}.png",
-                            f"{sd_diff}{locale_suffix}.tlg",
-                            f"{sd_diff}{locale_suffix}.pimg",
-                            f"{sd_diff}{locale_suffix}.asd",
-                            f"{sd_diff}{locale_suffix}.psb",
-                            f"{sd_diff}{locale_suffix}_censored.jpg",
-                            f"{sd_diff}{locale_suffix}_censored.png",
-                            f"{sd_diff}{locale_suffix}_censored.tlg",
-                            f"{sd_diff}{locale_suffix}_censored.pimg"
-                        ))
+                    for locale in ("", "_jp", "_en", "_cn", "_tw"):
+                        self.filename_plaintexts.update([
+                            f"{sd_diff}{locale}.jpg",
+                            f"{sd_diff}{locale}.png",
+                            f"{sd_diff}{locale}.tlg",
+                            f"{sd_diff}{locale}.pimg",
+                            f"{sd_diff}{locale}.asd",
+                            f"{sd_diff}{locale}.psb",
+                            f"{sd_diff}{locale}_censored.jpg",
+                            f"{sd_diff}{locale}_censored.png",
+                            f"{sd_diff}{locale}_censored.tlg",
+                            f"{sd_diff}{locale}_censored.pimg"
+                        ])
     print(f"[cglist.csv] 提取了 {count} 个 CG 条目")
     return self

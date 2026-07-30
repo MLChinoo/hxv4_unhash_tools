@@ -52,6 +52,9 @@ class PlainDictProviders:
     def from_soundlist_csv(self, soundlist_csv_filepath, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
+    def from_tlgref_files(self, tlgref_dir: str) -> PlainDict:
+        ...
+
     def scan_fgimage_stands(self, fgimage_dir, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 

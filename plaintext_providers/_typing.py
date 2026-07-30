@@ -43,10 +43,10 @@ class PlainDictProviders:
     def from_pbd_files(self, fgimage_dir) -> PlainDict:
         ...
 
-    def from_savelist_csv(self, savelist_csv_filepath) -> PlainDict:
+    def from_savelist_csv(self, savelist_csv_filepath, file_encoding: str = "utf-16le") -> PlainDict:
         ...
 
-    def from_scenelist_csv(self, scenelist_csv_filepath) -> PlainDict:
+    def from_scenelist_csv(self, scenelist_csv_filepath, file_encoding: str = "utf-16le") -> PlainDict:
         ...
 
     def from_soundlist_csv(self, soundlist_csv_filepath, file_encoding: str) -> PlainDict:

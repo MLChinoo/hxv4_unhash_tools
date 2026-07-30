@@ -10,7 +10,7 @@ from pathlib import Path
 from plaintext_providers import register
 
 
-@register(name="from_bgv_csv")
+@register(name="scan_bgv_csv")
 def collect(self, voice_dir, file_encoding: str = "utf-16le"):
     count = 0
     for child in Path(voice_dir).rglob("*"):

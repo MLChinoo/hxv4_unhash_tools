@@ -28,7 +28,7 @@ class PlainDictProviders:
     def from_bgv_csv(self, voice_dir) -> PlainDict:
         ...
 
-    def from_cglist_csv(self, cglist_csv_filepath: str) -> PlainDict:
+    def from_cglist_csv(self, cglist_csv_filepath: str, file_encoding: str) -> PlainDict:
         ...
 
     def from_chthum_index_pbd(self, chthum_index_pbd_filepath) -> PlainDict:

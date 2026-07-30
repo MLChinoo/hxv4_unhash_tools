@@ -7,7 +7,7 @@ import csv
 from plaintext_providers import register
 
 
-@register(name="add_char_sys_voices")
+@register(name="from_charvoice_csv")
 def collect(self, charvoice_csv_filepath, file_encoding: str = "utf-16le"):
     sys_voice_suffixes = (
         "after",

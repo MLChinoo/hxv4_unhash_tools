@@ -10,7 +10,7 @@ from itertools import product
 from plaintext_providers import register
 
 
-@register(name="add_movies")
+@register(name="from_replay_ks")
 def collect(self, replay_ks_filepath, file_encoding: str = "utf-16le"):
     movie_names = ["op"]
     languages = ("en", "cn", "tw")  # 日语无前缀

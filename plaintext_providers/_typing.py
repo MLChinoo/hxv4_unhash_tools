@@ -10,12 +10,6 @@ if TYPE_CHECKING:
 
 
 class PlainDictProviders:
-    def add_char_sys_voices(self, charvoice_csv_filepath, file_encoding: str) -> PlainDict:
-        ...
-
-    def add_movies(self, replay_ks_filepath, file_encoding: str = "utf-16le") -> PlainDict:
-        ...
-
     def duplicate_lower(self) -> PlainDict:
         ...
 
@@ -25,46 +19,50 @@ class PlainDictProviders:
     def from_base_stage(self, base_stage_filepath: str, file_encoding: str) -> PlainDict:
         ...
 
-    def from_bgv_csv(self, voice_dir, file_encoding: str = "utf-16le") -> PlainDict:
+    def from_bgv_csv(self, voice_dir, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
-    def from_cglist_csv(self, cglist_csv_filepath: str, file_encoding: str) -> PlainDict:
+    def from_cglist_csv(self, cglist_csv_filepath: str, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
-    def from_chthum_index_pbd(
-        self,
-        chthum_index_pbd_filepath,
-        file_encoding: str
-    ) -> PlainDict:
+    def from_charvoice_csv(self, charvoice_csv_filepath, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
-    def from_imagediffmap_csv(self, imagediffmap_csv_filepath, file_encoding: str = "utf-16le") -> PlainDict:
+    def from_chthum_index_pbd(self, chthum_index_pbd_filepath) -> PlainDict:
+        ...
+
+    def from_fgimage_pbd_files(self, fgimage_dir) -> PlainDict:
+        ...
+
+    def from_imagediffmap_csv(self, imagediffmap_csv_filepath, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
     def from_krkrdump_logs(self, krkrdump_dir) -> PlainDict:
         ...
 
-    def from_pbd_files(self, fgimage_dir, file_encoding: str) -> PlainDict:
+    def from_replay_ks(self, replay_ks_filepath, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
-    def from_savelist_csv(self, savelist_csv_filepath, file_encoding: str = "utf-16le") -> PlainDict:
+    def from_savelist_csv(self, savelist_csv_filepath, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
-    def from_scenelist_csv(self, scenelist_csv_filepath, file_encoding: str = "utf-16le") -> PlainDict:
+    def from_scenelist_csv(self, scenelist_csv_filepath, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
-    def from_soundlist_csv(self, soundlist_csv_filepath, file_encoding: str) -> PlainDict:
+    def from_soundlist_csv(self, soundlist_csv_filepath, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
-    def from_stand_files(
-        self,
-        fgimage_dir,
-        file_encoding: str = "utf-16le"
-    ) -> PlainDict:
-        ...
-
-    def from_unobfuscated_directory(self, base_dir: str) -> PlainDict:
+    def scan_fgimage_stands(self, fgimage_dir, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
     def scan_psb_and_decompile(self, scn_dir: str) -> PlainDict:
+        ...
+
+    def scan_uipsd_multi_lang(self, uipsd_dir: str) -> PlainDict:
+        ...
+
+    def scan_uipsd_pbds(self, uipsd_dir: str) -> PlainDict:
+        ...
+
+    def scan_unobfuscated_directory(self, base_dir: str) -> PlainDict:
         ...

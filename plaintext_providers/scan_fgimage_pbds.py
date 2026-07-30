@@ -1,6 +1,6 @@
 """
 从给定的fgimage目录下查找人物.pbd文件，并获取人物立绘.tlg文件名
-需要先从from_stand_files()来源获取.pbd文件
+需要先从scan_fgimage_stands()来源获取.pbd文件
 """
 
 import json
@@ -11,7 +11,7 @@ from pathlib import Path
 from plaintext_providers import register
 
 
-@register(name="from_pbd_files")
+@register(name="from_fgimage_pbd_files")
 def collect(self, fgimage_dir):
     def is_valid_pbd(child: Path):
         if not (child.is_file() and child.suffix == ".pbd"):

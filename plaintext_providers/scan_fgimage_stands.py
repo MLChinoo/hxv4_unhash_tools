@@ -1,6 +1,6 @@
 """
 从给定的fgimage目录下查找人物.stand文件，并获取.pbd文件名和.sinfo文件名
-需要先扫描一遍psb来获取.stand文件
+需要先scan_psb_and_decompile()扫描一遍psb来获取.stand文件
 """
 
 import re
@@ -9,7 +9,7 @@ from pathlib import Path
 from plaintext_providers import register
 
 
-@register(name="from_stand_files")
+@register(name="scan_fgimage_stands")
 def collect(self, fgimage_dir, file_encoding: str = "utf-16le"):
     count = 0
     for child in Path(fgimage_dir).rglob("*.stand"):

@@ -34,6 +34,9 @@ class PlainDictProviders:
     def from_fgimage_pbd_files(self, fgimage_dir) -> PlainDict:
         ...
 
+    def from_filegain_csv(self, filegain_csv_filepath, file_encoding: str) -> PlainDict:
+        ...
+
     def from_imagediffmap_csv(self, imagediffmap_csv_filepath, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 

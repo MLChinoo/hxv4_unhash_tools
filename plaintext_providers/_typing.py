@@ -49,7 +49,7 @@ class PlainDictProviders:
     def from_scenelist_csv(self, scenelist_csv_filepath) -> PlainDict:
         ...
 
-    def from_soundlist_csv(self, soundlist_csv_filepath) -> PlainDict:
+    def from_soundlist_csv(self, soundlist_csv_filepath, file_encoding: str) -> PlainDict:
         ...
 
     def from_stand_files(self, fgimage_dir) -> PlainDict:

@@ -40,6 +40,9 @@ class PlainDictProviders:
     def from_imagediffmap_csv(self, imagediffmap_csv_filepath, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
+    def from_imagedressmap_txt(self, imagedressmap_txt_filepath, file_encoding: str) -> PlainDict:
+        ...
+
     def from_imageevalmap_csv(self, imageevalmap_csv_filepath, file_encoding: str) -> PlainDict:
         ...
 

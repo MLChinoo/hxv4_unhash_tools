@@ -8,7 +8,7 @@ from plaintext_providers import register
 
 
 @register(name="add_char_sys_voices")
-def collect(self, charvoice_csv_filepath):
+def collect(self, charvoice_csv_filepath, file_encoding: str = "utf-16le"):
     sys_voice_suffixes = (
         "after",
         "attention0",
@@ -49,13 +49,17 @@ def collect(self, charvoice_csv_filepath):
         "title",
         "titleback"
     )
-    with open(charvoice_csv_filepath, mode="r", encoding="utf-16le") as f:
+    count = 0
+    with open(charvoice_csv_filepath, mode="r", encoding=file_encoding) as f:
         charvoice_csv = csv.reader(f)
         for row in charvoice_csv:
-            if len(row) > 0:
-                header = row[0].replace("\ufeff", "")  # remove bom
-                if not header.startswith("#") and not header.startswith("DEFAULT"):
-                    char_prefix = row[1].split("_")[0].replace("%s", "")
-                    for sys_voice_suffix in sys_voice_suffixes:
-                        self.filename_plaintexts.add(f"{char_prefix}_{sys_voice_suffix}.ogg")
+            if len(row) == 0:
+                continue
+            header = row[0].replace("\ufeff", "")  # remove bom
+            if not header.startswith("#") and not header.startswith("DEFAULT") and len(row) > 1:
+                char_prefix = row[1].split("_")[0]
+                for sys_voice_suffix in sys_voice_suffixes:
+                    self.filename_plaintexts.add(f"{char_prefix}_{sys_voice_suffix}.ogg")
+                count += 1
+    print(f"[charvoice.csv] 提取了 {count} 个角色语音前缀")
     return self

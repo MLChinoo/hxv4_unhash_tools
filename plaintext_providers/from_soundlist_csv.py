@@ -8,7 +8,7 @@ from plaintext_providers import register
 
 
 @register(name="from_soundlist_csv")
-def collect(self, soundlist_csv_filepath, file_encoding: str):
+def collect(self, soundlist_csv_filepath, file_encoding: str = "utf-16le"):
     count = 0
     with open(soundlist_csv_filepath, mode="r", encoding=file_encoding) as f:
         soundlist_csv = csv.reader(f)

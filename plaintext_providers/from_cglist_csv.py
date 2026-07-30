@@ -8,7 +8,7 @@ from plaintext_providers import register
 
 
 @register(name="from_cglist_csv")
-def collect(self, cglist_csv_filepath: str, file_encoding: str):
+def collect(self, cglist_csv_filepath: str, file_encoding: str = "utf-16le"):
     count = 0
     with open(cglist_csv_filepath, mode="r", encoding=file_encoding) as f:
         cglist_csv = csv.reader(f)

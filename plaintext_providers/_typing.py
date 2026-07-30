@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 class PlainDictProviders:
-    def add_char_sys_voices(self, charvoice_csv_filepath) -> PlainDict:
+    def add_char_sys_voices(self, charvoice_csv_filepath, file_encoding: str) -> PlainDict:
         ...
 
     def add_movies(self, replay_ks_filepath) -> PlainDict:

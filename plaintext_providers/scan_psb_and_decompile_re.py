@@ -16,7 +16,7 @@ from plain_dict import PlainDict
 from plaintext_providers import register
 
 
-@register(name="scan_psb_and_decompile_enhanced")
+@register(name="scan_psb_and_decompile_re")
 def collect(self: PlainDict, scn_dir: str):
     def is_psb_file(path) -> bool:
         path = Path(path)

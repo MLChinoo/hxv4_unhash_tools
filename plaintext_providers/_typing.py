@@ -82,7 +82,10 @@ class PlainDictProviders:
     def scan_psb_and_decompile(self, scn_dir: str) -> PlainDict:
         ...
 
-    def scan_psb_and_decompile_enhanced(self, scn_dir: str) -> PlainDict:
+    def scan_psb_and_decompile_re(self, scn_dir: str) -> PlainDict:
+        ...
+
+    def scan_tjs_scripts_re(self, tjs_dir: str, file_encoding: str) -> PlainDict:
         ...
 
     def scan_uipsd_multi_lang(self, uipsd_dir: str) -> PlainDict:

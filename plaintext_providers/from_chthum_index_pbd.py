@@ -18,6 +18,7 @@ def collect(self, chthum_index_pbd_filepath):
         with open(child, "rb") as f:
             return f.read(7) == b"TJS/ns0"
 
+    count = 0
     child = Path(chthum_index_pbd_filepath)
     if is_valid_pbd(child):
         try:
@@ -27,10 +28,17 @@ def collect(self, chthum_index_pbd_filepath):
                 assert type(pbd_json) == dict
                 for filename in pbd_json.values():
                     if "." not in filename:
-                        filename += ".png"
-                    self.filename_plaintexts.add(filename)
+                        self.filename_plaintexts.update([
+                            f"{filename}.png",
+                            f"{filename}.jpg"
+                        ])
+                    else:
+                        self.filename_plaintexts.add(filename)
+                    count += 1
             else:
                 raise RuntimeError(f"fail to convert pbd to json: {child}")
         except Exception:
             traceback.print_exc()
+    if count > 0:
+        print(f"[chthum] 提取了 {count} 个角色缩略图文件名")
     return self

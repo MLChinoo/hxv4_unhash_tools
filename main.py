@@ -32,6 +32,10 @@ def build_plain_dictionary():
                 "scenelist.csv",
                 "replay.ks",
                 "_chthum_index.pbd",
+                "charlist.csv",
+                "standlevel.tjs",
+                "facepos.txt",
+                "facepos.csv"
             ],
         )
         # .from_unobfuscated_directory(

@@ -19,8 +19,10 @@ def collect(self, fgimage_dir):
         with open(child, "rb") as f:
             return f.read(7) == b"TJS/4s0"
 
+    count = 0
     for child in Path(fgimage_dir).rglob("*"):
         if is_valid_pbd(child):
+            # _0本身就是character_prefix的一部分，没有必要额外处理（梓a.pbd, 梓a_0.pbd）
             character_prefix = child.stem
             try:
                 cmd_result = subprocess.run([self.config.pbd2json_exe, child.resolve()], capture_output=True, text=True, check=True)
@@ -29,11 +31,15 @@ def collect(self, fgimage_dir):
                     assert type(pbd_json) == list
                     for pbd_item in pbd_json:
                         if type(pbd_item) == dict and "layer_id" in pbd_item.keys():
-                            self.filename_plaintexts.add(
-                                f'{character_prefix}_{pbd_item["layer_id"]}.tlg'
-                            )
+                            self.filename_plaintexts.update([
+                                f'{character_prefix}_{pbd_item["layer_id"]}.tlg',
+                                f'{character_prefix}_{pbd_item["layer_id"]}.png'
+                            ])
+                            count += 1
                 else:
                     raise RuntimeError(f"fail to convert pbd to json: {child}")
             except Exception:
                 traceback.print_exc()
+    if count > 0:
+        print(f"[pbd] 提取了 {count} 个 tlg 图层文件名")
     return self

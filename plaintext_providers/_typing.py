@@ -31,7 +31,11 @@ class PlainDictProviders:
     def from_cglist_csv(self, cglist_csv_filepath: str, file_encoding: str) -> PlainDict:
         ...
 
-    def from_chthum_index_pbd(self, chthum_index_pbd_filepath) -> PlainDict:
+    def from_chthum_index_pbd(
+        self,
+        chthum_index_pbd_filepath,
+        file_encoding: str
+    ) -> PlainDict:
         ...
 
     def from_imagediffmap_csv(self, imagediffmap_csv_filepath, file_encoding: str = "utf-16le") -> PlainDict:
@@ -40,7 +44,7 @@ class PlainDictProviders:
     def from_krkrdump_logs(self, krkrdump_dir) -> PlainDict:
         ...
 
-    def from_pbd_files(self, fgimage_dir) -> PlainDict:
+    def from_pbd_files(self, fgimage_dir, file_encoding: str) -> PlainDict:
         ...
 
     def from_savelist_csv(self, savelist_csv_filepath, file_encoding: str = "utf-16le") -> PlainDict:
@@ -52,7 +56,11 @@ class PlainDictProviders:
     def from_soundlist_csv(self, soundlist_csv_filepath, file_encoding: str) -> PlainDict:
         ...
 
-    def from_stand_files(self, fgimage_dir) -> PlainDict:
+    def from_stand_files(
+        self,
+        fgimage_dir,
+        file_encoding: str = "utf-16le"
+    ) -> PlainDict:
         ...
 
     def from_unobfuscated_directory(self, base_dir: str) -> PlainDict:

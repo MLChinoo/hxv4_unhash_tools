@@ -16,9 +16,6 @@ class PlainDictProviders:
     def duplicate_lower(self) -> PlainDict:
         ...
 
-    def find_missing_voices(self, voice_dirs: Iterable, check_file_existence = False) -> PlainDict:
-        ...
-
     def from_base_stage(self, base_stage_filepath: str, file_encoding: str) -> PlainDict:
         ...
 
@@ -28,10 +25,7 @@ class PlainDictProviders:
     def from_chthum_index_pbd(self, chthum_index_pbd_filepath) -> PlainDict:
         ...
 
-    def from_cxdecextractor_logs(self, directory_hash_log_filepath: str, filename_hash_log_filepath: str, file_encoding: str = 'utf-16le') -> PlainDict:
-        ...
-
-    def from_fgimage_pbd_files(self, fgimage_dir) -> PlainDict:
+    def from_cxdecextractor_logs(self, directory_hash_log_filepath: str, filename_hash_log_filepath: str) -> PlainDict:
         ...
 
     def from_filegain_csv(self, filegain_csv_filepath, file_encoding: str) -> PlainDict:
@@ -82,10 +76,16 @@ class PlainDictProviders:
     def scan_evimage_tlgrefs(self, evimage_dir: str) -> PlainDict:
         ...
 
+    def scan_fgimage_pbds(self, fgimage_dir: str) -> PlainDict:
+        ...
+
     def scan_fgimage_stands(self, fgimage_dir, file_encoding: str = 'utf-16le') -> PlainDict:
         ...
 
     def scan_locale_files(self, locale_dir: str) -> PlainDict:
+        ...
+
+    def scan_missing_voices(self, voice_dirs: Iterable, check_file_existence = False) -> PlainDict:
         ...
 
     def scan_psb_and_decompile(self, scn_dir: str) -> PlainDict:

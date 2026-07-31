@@ -12,8 +12,8 @@ from plain_dict import PlainDict
 from plaintext_providers import register
 
 
-@register(name="from_fgimage_pbd_files")
-def collect(self: PlainDict, fgimage_dir):
+@register(name="scan_fgimage_pbds")
+def collect(self: PlainDict, fgimage_dir: str):
     def is_valid_pbd(child: Path):
         if not (child.is_file() and child.suffix == ".pbd"):
             return False

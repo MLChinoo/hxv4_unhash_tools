@@ -44,7 +44,7 @@ def collect(self: PlainDict, scn_dir: str):
     }
 
     def handle_data_item(data_item: dict):
-        if data_item.get("name") in ("bgm", "live", "liveout") and "replay" in data_item.keys():
+        if data_item.get("name") in ("bgm", "live", "liveout", "endsong") and "replay" in data_item.keys():
             # 获取背景音乐文件名  bgm
             filename = data_item["replay"]["filename"]
             if filename is not None:
@@ -56,7 +56,7 @@ def collect(self: PlainDict, scn_dir: str):
                     f"{filename}.mchx",
                     f"{filename}.mchx.sli"
                 ])
-        elif data_item.get("name") in ("lse", "lse2", "se", "se2") and "replay" in data_item.keys():
+        elif data_item.get("name") in ("lse", "lse2", "lse3", "se", "se2") and "replay" in data_item.keys():
             # sound
             filename_raw: str = data_item["replay"]["filename"]
             if filename_raw is not None:

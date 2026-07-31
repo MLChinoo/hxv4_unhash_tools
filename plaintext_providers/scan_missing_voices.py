@@ -13,7 +13,7 @@ from plain_dict import PlainDict
 from plaintext_providers import register
 
 
-@register(name="find_missing_voices")
+@register(name="scan_missing_voices")
 def collect(self: PlainDict, voice_dirs: Iterable, check_file_existence = False):
     prefixes_map = {}  # anj_000: [4, 90] / anj_loop: [2, 64]
 

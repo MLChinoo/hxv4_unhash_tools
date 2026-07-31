@@ -10,12 +10,12 @@ from plaintext_providers import register
 
 
 @register(name="from_cxdecextractor_logs")
-def collect(self: PlainDict, directory_hash_log_filepath: str, filename_hash_log_filepath: str, file_encoding: str = "utf-16le"):
+def collect(self: PlainDict, directory_hash_log_filepath: str, filename_hash_log_filepath: str):
     directory_hash_log_filepath = Path(directory_hash_log_filepath)
     filename_hash_log_filepath = Path(filename_hash_log_filepath)
     if filename_hash_log_filepath.exists():
         try:
-            with open(filename_hash_log_filepath, mode="r", encoding=file_encoding) as f:
+            with open(filename_hash_log_filepath, mode="r", encoding="utf-16le") as f:
                 for line in f:
                     line = line.strip().replace("\ufeff", "")
                     if "##YSig##" not in line:
@@ -28,7 +28,7 @@ def collect(self: PlainDict, directory_hash_log_filepath: str, filename_hash_log
 
     if directory_hash_log_filepath.exists():
         try:
-            with open(directory_hash_log_filepath, mode="r", encoding=file_encoding) as f:
+            with open(directory_hash_log_filepath, mode="r", encoding="utf-16le") as f:
                 for line in f:
                     line = line.strip().replace("\ufeff", "")
                     if "##YSig##" not in line:

@@ -5,6 +5,7 @@
 """
 
 import csv
+import logging
 import re
 from pathlib import Path
 from collections.abc import Iterable
@@ -13,13 +14,16 @@ from plain_dict import PlainDict
 from plaintext_providers import register
 
 
+logger = logging.getLogger(__name__)
+
+
 @register(name="scan_missing_voices")
 def collect(self: PlainDict, voice_dirs: Iterable, check_file_existence = False):
     prefixes_map = {}  # anj_000: [4, 90] / anj_loop: [2, 64]
 
     def handle_voice_name(voice_name: str):  # anj_000_0090 / anj_loop_64
         if "_" not in voice_name:
-            # print(f"illegal missing voice name: {voice_name}")
+            # logger.warning(f"illegal missing voice name: {voice_name}")
             return
         prefix, num = voice_name.rsplit("_", 1)  # anj_000, 0090 / anj_loop, 64
         if result := re.match(r'^\d+', num):
@@ -30,7 +34,7 @@ def collect(self: PlainDict, voice_dirs: Iterable, check_file_existence = False)
             else:
                 ori_size = prefixes_map[prefix][0]
                 if size != ori_size:
-                    print(f"{voice_name} suffix size changed: {ori_size} -> {size}")
+                    logger.warning(f"{voice_name} suffix size changed: {ori_size} -> {size}")
                 if num > prefixes_map[prefix][1]:
                     prefixes_map[prefix][1] = num
 
@@ -61,6 +65,6 @@ def collect(self: PlainDict, voice_dirs: Iterable, check_file_existence = False)
                 ])
                 if check_file_existence:
                     if not any(((Path(vd) / f"{voice_name_suffix}.ogg").exists() for vd in voice_dirs)):
-                        print(f"found possible missing voice: {voice_name_suffix}")
+                        logger.info(f"found possible missing voice: {voice_name_suffix}")
 
     return self

@@ -1,3 +1,11 @@
+import logging
+
+from utils.logging_utils import configure_logging
+
+
+logger = logging.getLogger(__name__)
+
+
 def _rotl64(x: int, b: int) -> int:
     return ((x << b) | (x >> (64 - b))) & 0xFFFFFFFFFFFFFFFF
 
@@ -70,7 +78,8 @@ def get_path_hash(path: str) -> int:
     return byteswap64(h)
 
 if __name__ == "__main__":
+    configure_logging()
     tests = ["/", "xp3hnp", "/"]
     for t in tests:
         hv = get_path_hash(t)
-        print(f"{t!r} -> {hv:016x}")
+        logger.info(f"{t!r} -> {hv:016x}")

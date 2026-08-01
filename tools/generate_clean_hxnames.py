@@ -2,12 +2,17 @@
 原HxNames.lst为了命中更多的hash名称会多出很多冗余条目，
 若需发布，可用此方法从已有已反混淆的目录生成一份干净的HxNames.lst
 """
+import logging
 from pathlib import Path
 
 from utils.krkr_hxv4_hash import is_file_hash, is_path_hash
+from utils.logging_utils import configure_logging
 
 
-def generate_clean_hxnames(base_hxnames_filepath: Path, deobfuscated_dir: Path, save_filepath: Path):
+logger = logging.getLogger(__name__)
+
+
+def generate_clean_hxnames(base_hxnames_filepath: Path, unhashed_dir: Path, save_filepath: Path):
     path_hash_map = {}
     file_hash_map = {}
     save_file = open(save_filepath, mode="w", encoding="UTF-8")
@@ -29,15 +34,15 @@ def generate_clean_hxnames(base_hxnames_filepath: Path, deobfuscated_dir: Path, 
                 raise Exception(hx_hash)
 
         # save_file.write(f"94D4A97C61498621:/\n")
-        for xp3_dir in deobfuscated_dir.iterdir():
+        for xp3_dir in unhashed_dir.iterdir():
             for child in xp3_dir.rglob('*'):
                 if child.is_file():
                     hx_name = child.name
                     if is_file_hash(hx_name):
                         continue
-                    print(hx_name)
+                    logger.info(hx_name)
                     if hx_name not in file_hash_map:
-                        print(f"{hx_name} not in file hash map, ignored")
+                        logger.warning(f"{hx_name} not in file hash map, ignored")
                         ignored_items += 1
                         continue
                     if hx_name not in saved_items:
@@ -49,21 +54,21 @@ def generate_clean_hxnames(base_hxnames_filepath: Path, deobfuscated_dir: Path, 
                         if is_path_hash(subdir):
                             continue
                     hx_name += "/"
-                    print(hx_name)
+                    logger.info(hx_name)
                     if hx_name not in path_hash_map:
-                        print(f"{hx_name} not in path hash map, ignored")
+                        logger.warning(f"{hx_name} not in path hash map, ignored")
                         ignored_items += 1
                         continue
                     if hx_name not in saved_items:
                         save_file.write(f"{path_hash_map[hx_name]}:{hx_name}\n")
                         saved_items.add(hx_name)
     save_file.close()
-    print(f"\nclean hxnames generated, ignored {ignored_items} item(s).")
+    logger.info(f"clean hxnames generated, ignored {ignored_items} item(s).")
                     
 
 if __name__ == "__main__":
+    configure_logging()
     generate_clean_hxnames(
         base_hxnames_filepath=Path(r"C:\Users\MLChinoo\PycharmProjects\hxv4_unhash_tools\HxNames.lst"),
-        deobfuscated_dir=Path(r"D:\gals\dumps\dracu_dumps"),
-        save_filepath=Path(r"C:\Users\MLChinoo\PycharmProjects\hxv4_unhash_tools\HxNames-Dracu.lst")
-    )
+        unhashed_dir=Path(r"D:\gals\dumps\dracu_dumps"),
+        save_filepath=Path(r"C:\Users\MLChinoo\PycharmProjects\hxv4_unhash_tools\HxNames-Dracu.lst"))

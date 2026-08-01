@@ -57,7 +57,7 @@ def get_unique_name(dest_path):
     new_path = dest_path
 
     while os.path.exists(new_path):
-        new_path = f"{base}_{counter}{ext}"
+        new_path = f"{base}_{counter}_unique_salt{ext}"
         counter += 1
 
     return new_path

@@ -2,11 +2,14 @@
 从CxdecExtractor生成的FileNameHash.log和DirectoryHash.log中获取文件名和路径名
 """
 
-import traceback
+import logging
 from pathlib import Path
 
 from plain_dict import PlainDict
 from plaintext_providers import register
+
+
+logger = logging.getLogger(__name__)
 
 
 @register(name="from_cxdecextractor_logs")
@@ -24,7 +27,7 @@ def collect(self: PlainDict, directory_hash_log_filepath: str, filename_hash_log
                     if filename and filename != "%EmptyString%":
                         self.filename_plaintexts.add(filename)
         except Exception:
-            traceback.print_exc()
+            logger.exception("读取 FileNameHash.log 失败")
 
     if directory_hash_log_filepath.exists():
         try:
@@ -37,5 +40,5 @@ def collect(self: PlainDict, directory_hash_log_filepath: str, filename_hash_log
                     if pathname and pathname != "%EmptyString%":
                         self.pathname_plaintexts.add(pathname)
         except Exception:
-            traceback.print_exc()
+            logger.exception("读取 DirectoryHash.log 失败")
     return self

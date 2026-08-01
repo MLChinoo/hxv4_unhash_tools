@@ -6,8 +6,15 @@
 需还原为94D4A97C61498621/00A93384A021B7BEC8FF4E8993126ABC11AE9473B411D1893594DC96271F219E
 CxdecExtractor提取则无此问题
 """
+import logging
 import os
 import shutil
+
+from utils.logging_utils import configure_logging
+
+
+logger = logging.getLogger(__name__)
+
 
 def restore_dir_structure(folder_path):
     for filename in os.listdir(folder_path):
@@ -22,11 +29,12 @@ def restore_dir_structure(folder_path):
             new_file_path = os.path.join(target_dir, parts[-1] + ext)
 
             shutil.move(file_path, new_file_path)
-            print(f"移动：{file_path} -> {new_file_path}")
+            logger.info(f"移动：{file_path} -> {new_file_path}")
 
 if __name__ == "__main__":
+    configure_logging()
     root_dir = r"C:\Users\MLChinoo\Desktop\3lj_data_full"
     for dir in os.listdir(root_dir):
         folder = os.path.join(root_dir, dir)
-        print(folder)
+        logger.info(folder)
         restore_dir_structure(folder)

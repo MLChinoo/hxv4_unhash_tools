@@ -3,9 +3,13 @@
 """
 
 import csv
+import logging
 
 from plain_dict import PlainDict
 from plaintext_providers import register
+
+
+logger = logging.getLogger(__name__)
 
 
 @register(name="from_cglist_csv")
@@ -19,7 +23,7 @@ def collect(self: PlainDict, cglist_csv_filepath: str, file_encoding: str = "utf
             if cg_filename.startswith("#"):
                 continue
             if ":" in cg_filename:
-                print(f"bad cg_filename, ignored: {cg_filename} in {cglist_csv_filepath}")
+                logger.warning(f"bad cg_filename, ignored: {cg_filename} in {cglist_csv_filepath}")
                 continue
             cg_name = cg_filename.replace("thum_", "")
             self.filename_plaintexts.update([
@@ -55,7 +59,7 @@ def collect(self: PlainDict, cglist_csv_filepath: str, file_encoding: str = "utf
                     for cg_diff in cg_diffs.replace("*", "").split("|"):
                         cg_diff = cg_diff.strip().replace("\t", "")
                         if not cg_diff.startswith(cg_name):
-                            print(f"bad cg_diff with cg_name, ignored: {cg_diff}, {cg_name}")
+                            logger.warning(f"bad cg_diff with cg_name, ignored: {cg_diff}, {cg_name}")
                             continue
                         cg_name_last_pos = cg_diff.find(cg_name) + len(cg_name)
                         for cg_diff_last_pos in range(cg_name_last_pos, len(cg_diff)+1):

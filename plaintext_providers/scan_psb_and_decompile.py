@@ -3,16 +3,19 @@
 """
 
 import json
+import logging
 import pickle
 import os
 import shutil
 import subprocess
-import traceback
 from pathlib import Path
 from contextlib import suppress
 
 from plain_dict import PlainDict
 from plaintext_providers import register
+
+
+logger = logging.getLogger(__name__)
 
 
 @register(name="scan_psb_and_decompile")
@@ -92,9 +95,15 @@ def collect(self: PlainDict, scn_dir: str):
                         f"{standname_with_ext}"
                     )
                 else:
-                    print(f"bad stand name, ignored: {standname_with_ext}")
-        elif data_item.get("class") == "event":
-            if data_item.get("name") == "ev" and "redraw" in data_item.keys():
+                    logger.warning(f"bad stand name, ignored: {standname_with_ext}")
+        elif data_item.get("class") in ("event", "effect"):
+            if data_item.get("name") in ("ev", "effect", "effect2", "mono_sea") and "redraw" in data_item.keys():
+                if "clip" in data_item["redraw"].keys():  # cut_one.png
+                    filename = data_item["redraw"]["clip"]["image"]
+                    self.filename_plaintexts.update([
+                        f"{filename}.png",
+                        f"{filename}.jpg"
+                    ])
                 # 在lines中获取image
                 filename_rawline: str = data_item["redraw"]["imageFile"]["file"]  # "mtile,ed_nicola_roll.tjs"
                 for filename in filename_rawline.split(","):
@@ -105,7 +114,11 @@ def collect(self: PlainDict, scn_dir: str):
                             for locale in ("_jp", "_en", "_cn", "_tw"):
                                 self.filename_plaintexts.add(filename.replace(".tjs", f"{locale}.ini"))
                     else:  # 空_夜
-                        self.filename_plaintexts.add(f"{filename}.png")
+                        self.filename_plaintexts.update([
+                            f"{filename}.png",
+                            f"{filename}_censored.png",
+                            f"{filename}.jpg"
+                        ])
             elif data_item.get("name") == "bg_voice" and "redraw" in data_item.keys():
                 # 背景对话文件 bg_voice (e.g. bgv007_07_歓声.csv)
                 filename_with_ext = data_item["redraw"]["imageFile"]["file"]["storage"]
@@ -150,7 +163,7 @@ def collect(self: PlainDict, scn_dir: str):
         for voice_filename in voice_filenames:
             if "." in voice_filename:
                 if voice_filename.count(".") > 1:
-                    print(f"warning: multiple extensions file - {voice_filename}")
+                    logger.warning(f"warning: multiple extensions file - {voice_filename}")
                 voice_name, extension = voice_filename.split(".", 1)
             else:
                 voice_name, extension = voice_filename, None
@@ -260,7 +273,7 @@ def collect(self: PlainDict, scn_dir: str):
                         raise NotImplementedError(f"{file}\n{psb_json.keys()}")
                     json_f.close()
                 except Exception:
-                    traceback.print_exc()
+                    logger.exception("处理 PSB 文件失败")
     with open(self.config.psb_type_cache_pkl, mode="wb") as ptcf:
         pickle.dump(psb_type_cache, ptcf)
     for root, dirs, files in os.walk(self.config.temp_dir):

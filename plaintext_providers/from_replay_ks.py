@@ -4,6 +4,7 @@
 同时保留命名为add_movies而不是from_replay_ks
 """
 
+import logging
 import re
 from itertools import product
 
@@ -11,16 +12,19 @@ from plain_dict import PlainDict
 from plaintext_providers import register
 
 
+logger = logging.getLogger(__name__)
+
+
 @register(name="from_replay_ks")
 def collect(self: PlainDict, replay_ks_filepath, file_encoding: str = "utf-16le"):
     movie_names = ["op"]
     locales = ("", "jp_", "en_", "cn_", "tw_")
-    extensions = ("mp4", "wmv")
+    extensions = ("mp4", "wmv", "amv", "webm")
     pattern = r'\[(?:sysmovie|edmovie)\s+file=([^\s\]]+)\s*\]'
     with open(replay_ks_filepath, mode="r", encoding=file_encoding) as f:
         replay_ks = f.read()
     if replay_ks == "":
-        print("[replay.ks] 无法读取")
+        logger.error("[replay.ks] 无法读取")
         return self
     replay_ks = replay_ks.replace("\ufeff", "")
     movie_names.extend(re.findall(pattern, replay_ks))

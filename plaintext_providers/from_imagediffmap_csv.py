@@ -3,9 +3,13 @@
 """
 
 import csv
+import logging
 
 from plain_dict import PlainDict
 from plaintext_providers import register
+
+
+logger = logging.getLogger(__name__)
 
 
 @register(name="from_imagediffmap_csv")
@@ -21,7 +25,7 @@ def collect(self: PlainDict, imagediffmap_csv_filepath, file_encoding: str = "ut
             filename = row[1]
             if "." in filename:
                 if filename.count(".") > 1:
-                    print(f"warning: multiple extensions file - {filename}")
+                    logger.warning(f"warning: multiple extensions file - {filename}")
                 names, extension = filename.split(".", 1)
                 names = names.split("|")
                 for name in names:

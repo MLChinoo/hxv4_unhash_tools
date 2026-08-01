@@ -1,13 +1,16 @@
 """
 从base.stage文件中获取背景图片文件名bgimage
 """
-import traceback
+import logging
 from pathlib import Path
 from itertools import product
 
 from plain_dict import PlainDict
 from plaintext_providers import register
 import utils.tjs_parser
+
+
+logger = logging.getLogger(__name__)
 
 
 @register(name="from_base_stage")
@@ -51,6 +54,5 @@ def collect(self: PlainDict, base_stage_filepath: str, file_encoding: str):
                                         f"bgthum_{image_filename}{locale_suffix}.png"
                                     ])
     except Exception:
-        print("[base.stage] 解析失败:")
-        traceback.print_exc()
+        logger.exception("[base.stage] 解析失败")
     return self

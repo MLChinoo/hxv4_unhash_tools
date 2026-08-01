@@ -5,25 +5,25 @@ from typing import Optional
 
 from config import Config
 
-mylib: Optional[ctypes.CDLL] = None
+krkrhxv4hash_dll: Optional[ctypes.CDLL] = None
 
 def set_hashlib(data):
     if isinstance(data, Path):
-        global mylib
-        mylib = ctypes.CDLL(str(data.resolve()))
-        mylib.get_filename_hash.argtypes = [ctypes.c_wchar_p]
-        mylib.get_filename_hash.restype = ctypes.POINTER(ctypes.c_uint8)
-        mylib.get_path_hash.argtypes = [ctypes.c_wchar_p]
-        mylib.get_path_hash.restype = ctypes.c_uint64
+        global krkrhxv4hash_dll
+        krkrhxv4hash_dll = ctypes.CDLL(str(data.resolve()))
+        krkrhxv4hash_dll.get_filename_hash.argtypes = [ctypes.c_wchar_p]
+        krkrhxv4hash_dll.get_filename_hash.restype = ctypes.POINTER(ctypes.c_uint8)
+        krkrhxv4hash_dll.get_path_hash.argtypes = [ctypes.c_wchar_p]
+        krkrhxv4hash_dll.get_path_hash.restype = ctypes.c_uint64
     elif isinstance(data, Config):
         set_hashlib(data.krkrhxv4hash_dll)
     else:
         raise TypeError(data)
 
-def _require_mylib(func):
+def _require_dll(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        if mylib is None:
+        if krkrhxv4hash_dll is None:
             raise RuntimeError("KrkrHxv4Hash.dll is not initialized.")
         return func(*args, **kwargs)
     return wrapper
@@ -33,17 +33,17 @@ def _str_to_utf16_ptr(s: str):
     buf = ctypes.create_string_buffer(utf16_bytes)
     return ctypes.cast(buf, ctypes.c_wchar_p)
 
-@_require_mylib
+@_require_dll
 def get_file_hash(filename: str) -> str:
     ptr = _str_to_utf16_ptr(filename)
-    arr_ptr = mylib.get_filename_hash(ptr)
+    arr_ptr = krkrhxv4hash_dll.get_filename_hash(ptr)
     hash_result = ''.join(f"{arr_ptr[i]:02X}" for i in range(32))
     return hash_result
 
-@_require_mylib
+@_require_dll
 def get_path_hash(pathname: str) -> str:
     ptr = _str_to_utf16_ptr(pathname)
-    num = mylib.get_path_hash(ptr)
+    num = krkrhxv4hash_dll.get_path_hash(ptr)
     hash_result = f"{num:016X}"
     return hash_result
 
@@ -60,7 +60,5 @@ def is_path_hash(input: str) -> bool:
     )
 
 if __name__ == "__main__":
-    print(get_path_hash("/"))
-    print(get_path_hash(""))
-    print(get_path_hash("﻿"))
-    print(get_file_hash(""))
+    set_hashlib(Path(r"C:\Users\MLChinoo\PycharmProjects\hxv4_unhash_tools\binaries\KrkrHxv4Hash.dll"))
+    print(get_file_hash("macro_1.ks"))

@@ -3,17 +3,22 @@
 
 "94D4A97C61498621"应为根目录，即目录里的文件应在上一级目录下，而不是错误地新开一个目录
 """
+import logging
 import os
 import shutil
 
 from utils.file_utils import get_unique_name
+from utils.logging_utils import configure_logging
+
+
+logger = logging.getLogger(__name__)
 
 
 def move_bomhash_files(root_dir):
     for current_dir, dirs, files in os.walk(root_dir, topdown=False):
         if "94D4A97C61498621" in dirs:
             target_path = os.path.join(current_dir, "94D4A97C61498621")
-            print(f"处理目录: {target_path}")
+            logger.info(f"处理目录: {target_path}")
 
             # 遍历目标子目录中的所有文件和文件夹
             for item in os.listdir(target_path):
@@ -25,12 +30,13 @@ def move_bomhash_files(root_dir):
                     dest = get_unique_name(dest)
 
                 shutil.move(src, dest)
-                print(f"移动: {src} -> {dest}")
+                logger.info(f"移动: {src} -> {dest}")
 
             # 删除空目录
             shutil.rmtree(target_path)
-            print(f"已删除目录: {target_path}")
+            logger.info(f"已删除目录: {target_path}")
 
 if __name__ == "__main__":
+    configure_logging()
     root_directory = r"C:\Users\MLChinoo\Desktop\3lj_data_full"  # 替换为你的实际路径
     move_bomhash_files(root_directory)

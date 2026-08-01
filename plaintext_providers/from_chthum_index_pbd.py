@@ -3,12 +3,15 @@
 """
 
 import json
+import logging
 import subprocess
-import traceback
 from pathlib import Path
 
 from plain_dict import PlainDict
 from plaintext_providers import register
+
+
+logger = logging.getLogger(__name__)
 
 
 @register(name="from_chthum_index_pbd")
@@ -37,5 +40,5 @@ def collect(self: PlainDict, chthum_index_pbd_filepath):
             else:
                 raise RuntimeError(f"fail to convert pbd to json: {child}")
         except Exception:
-            traceback.print_exc()
+            logger.exception("处理角色缩略图 PBD 文件失败")
     return self

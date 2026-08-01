@@ -1,4 +1,11 @@
+import logging
 from typing import List
+
+from utils.logging_utils import configure_logging
+
+
+logger = logging.getLogger(__name__)
+
 
 def rotr32(x: int, n: int) -> int:
     x &= 0xFFFFFFFF
@@ -87,6 +94,7 @@ def get_filename_hash(path: str) -> str:
     return out.hex()
 
 if __name__ == "__main__":
+    configure_logging()
     p = r"水８.ogg"
     digest = get_filename_hash(p)
-    print("digest:", digest)
+    logger.info(f"digest: {digest}")

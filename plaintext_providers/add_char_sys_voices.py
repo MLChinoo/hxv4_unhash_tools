@@ -15,13 +15,13 @@ def collect(self: PlainDict, charvoice_csv_filepath: str, sysse_ini_filepath: st
         prefixes = set()
         with open(charvoice_csv_filepath, mode="r", encoding=file_encoding) as f:
             charvoice_csv = csv.reader(f)
-        for row in charvoice_csv:
-            if len(row) == 0:
-                continue
-            header = row[0].replace("\ufeff", "")  # remove bom
-            if not header.startswith("#") and not header.startswith("DEFAULT") and len(row) > 1:
-                char_prefix: str = row[1].replace("%s", "").split("_")[0]
-                prefixes.add(char_prefix)
+            for row in charvoice_csv:
+                if len(row) == 0:
+                    continue
+                header = row[0].replace("\ufeff", "")  # remove bom
+                if not header.startswith("#") and not header.startswith("DEFAULT") and len(row) > 1:
+                    char_prefix: str = row[1].replace("%s", "").split("_")[0]
+                    prefixes.add(char_prefix)
         return prefixes
     def get_sys_voice_filename_template(sysse_ini_filepath: str) -> set[str]:
         templates = set()

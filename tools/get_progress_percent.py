@@ -3,9 +3,16 @@
 
 即反混淆进度
 """
+import logging
 import os
 
 from utils.krkr_hxv4_hash import is_path_hash, is_file_hash
+from utils.logging_utils import configure_logging
+
+
+logger = logging.getLogger(__name__)
+
+
 
 def get_progress_percent(root_dir: str) -> float:
     total_path = 0
@@ -27,4 +34,5 @@ def get_progress_percent(root_dir: str) -> float:
     return 1 - (hashed_path + hashed_file) / (total_path + total_file)
 
 if __name__ == "__main__":
-    print(f"{100 * get_progress_percent(r"D:\gals\dumps\dracu_dumps")}%")
+    configure_logging()
+    logger.info(f"{100 * get_progress_percent(r"D:\gals\dumps\dracu_dumps")}%")

@@ -21,6 +21,6 @@ def collect(self: PlainDict, imagemulti_txt_filepath, file_encoding: str):
                     part = part.split(":", 1)[1].strip()
                 if not part:
                     continue
-                for extension in (".pbd", ".sinfo", ".pimg", ".stand"):
+                for extension in (".pbd", ".sinfo", ".pimg", ".stand", "_info.txt"):
                     self.filename_plaintexts.add(f"{part}{extension}")
     return self

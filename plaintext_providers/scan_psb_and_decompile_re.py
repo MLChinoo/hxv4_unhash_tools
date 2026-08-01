@@ -3,17 +3,20 @@
 """
 
 import json
+import logging
 import os
 import pickle
 import re
 import shutil
 import subprocess
-import traceback
 from contextlib import suppress
 from pathlib import Path
 
 from plain_dict import PlainDict
 from plaintext_providers import register
+
+
+logger = logging.getLogger(__name__)
 
 
 @register(name="scan_psb_and_decompile_re")
@@ -106,7 +109,7 @@ def collect(self: PlainDict, scn_dir: str):
                         )
                     json_f.close()
                 except Exception:
-                    traceback.print_exc()
+                    logger.exception("处理 PSB 文件失败")
 
     for image_name in image_names:
         if image_name.startswith("ev") or image_name.startswith("sd") or image_name.endswith(".stand"):

@@ -5,6 +5,7 @@
 /HxNames.lst
 __pycache__
 temp/*
+/logs/
 /.idea/hxv4_unhash_tools.iml
 /.idea/misc.xml
 /.idea/modules.xml

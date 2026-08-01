@@ -20,7 +20,7 @@ A2: 支持从hxv4 crypted游戏（举例：魔女的夜宴 Steam版、星光咖�
 - 视频文件（video）
 - …………
 
-项目当前针对Limelight Lemonade Jam进行开发，因此对于其他游戏的支持可能有所欠缺。
+项目当前针对Dracu-Riot! Steam版进行开发，因此对于其他游戏的支持可能有所欠缺。
 
 若你完善了对其他游戏的支持，欢迎创建Pull Request来帮助这个项目变得更好！😘
 
@@ -30,21 +30,19 @@ A3: 使用如下，请自行尝试：
 
 1. 使用KrkrExtractForCxdecV2（或GARBro2，若支持目标游戏）提取xp3；
 
-2. [可选]使用utils/restore_dir_structure.py初步整理提取出的文件夹结构；
+2. 在main.py开头处更改目录配置及添加明文字典来源，具体使用方法可参照main.py中的注释；
 
-3. 在main.py开头处更改目录配置及添加明文字典来源，具体使用方法可参照main.py及plain_dict.py中的注释；
+3. 运行main.py，即可还原文件名并自动重命名文件名和目录名；
 
-4. 运行main.py，即可还原文件名并自动重命名文件名和目录名；
+4. 运行后生成的HxNames.lst可供GARbro等工具使用。
 
-5. 运行后生成的HxNames.lst可供GARbro等工具使用。
-
-    - 若做发布用途，建议使用utils/generate_clean_hxnames.py再生成一份干净的文件。
+    - 若做发布用途，建议使用tools/generate_clean_hxnames.py再生成一份干净的文件。
 
 **使用此项目生成：**
 
 - [天使☆嚣嚣 RE-BOOT!（Hikari Field版） - ten_sz_hxnames](https://github.com/MLChinoo/ten_sz_hxnames)
 - [Limelight Lemonade Jam - lllj_hxnames](https://github.com/MLChinoo/lllj_hxnames)
-- [Dracu-Riot!（Steam版） - HxNames-DR.lst](https://github.com/2778995958/gal_tachie_ai/blob/main/yuzu/HxNames-DR.lst)
+- [Dracu-Riot!（Steam版） - dracu_hxnames](https://github.com/MLChinoo/dracu_hxnames)
 - [ガマンができない童貞兄キと、スナオになれない反抗妹』（略称：童貞兄妹) - HxNames-DTKD.lst](https://github.com/2778995958/gal_tachie_ai/blob/main/krkr/HxNames-DTKD.lst)
 - [魔女的夜宴（Steam版） - sanoba_hxnames](https://github.com/MLChinoo/sanoba_hxnames)
 
@@ -52,9 +50,11 @@ A3: 使用如下，请自行尝试：
 
 - [UlyssesWu/FreeMote](https://github.com/UlyssesWu/FreeMote)
 - [YuriSizuku/GalgameReverse](https://github.com/YuriSizuku/GalgameReverse)
-- [~~crskycode/GARbro~~](https://github.com/crskycode/GARbro)（已被删除，[Fork](https://github.com/MLChinoo/GARbro)）
+- [crskycode/GARbro](https://github.com/crskycode/GARbro)
 - [YeLikesss/KrkrExtractForCxdecV2](https://github.com/YeLikesss/KrkrExtractForCxdecV2)
-- [~~crskycode/KrkrDump~~](https://github.com/crskycode/KrkrDump)（已被删除，[Fork](https://github.com/MLChinoo/KrkrDump-Hasher)）
+- [crskycode/KrkrDump](https://github.com/crskycode/KrkrDump)
 - [UserUnknownFactor/GARbro2](https://github.com/UserUnknownFactor/GARbro2)
 - [lictex/atri-composite](https://github.com/lictex/atri-composite)
 - [MishaIac/KrkrHxv4Hash](https://github.com/MishaIac/KrkrHxv4Hash)
+- [MLChinoo/TjsParser](https://github.com/MLChinoo/TjsParser)
+- [2778995958/gal_tachie_ai](https://github.com/2778995958/gal_tachie_ai)

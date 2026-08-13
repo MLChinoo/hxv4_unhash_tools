@@ -50,5 +50,5 @@ def collect(self: PlainDict, charvoice_csv_filepath: str, sysse_ini_filepath: st
     for prefix, template in product(
             get_character_prefix(charvoice_csv_filepath),
             get_sys_voice_filename_template(sysse_ini_filepath)):
-        self.filename_plaintexts.add(f"{template.replace("%s", prefix)}.ogg")
+        self.filename_plaintexts.add(f"{template.replace('%s', prefix)}.ogg")
     return self

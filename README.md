@@ -2,11 +2,11 @@
 
 **Q1: 这是什么？**
 
-A1: 帮助你还原经hxv4 hash后的文件名的一系列实用脚本，实测反哈希率可达到90%以上。
+A1: 帮助你还原经 hxv4 hash 后的文件名的一系列实用脚本，实测反哈希率可达到 90% 以上。
 
 **Q2: 支持的范围？**
 
-A2: 支持从hxv4 crypted游戏（举例：魔女的夜宴 Steam版、星光咖啡馆与死神之蝶 Steam版、天使嚣嚣 原版及Hikari Field版、Limelight Lemonade Jam 体验版及原版等）中还原以下文件名和目录名信息：
+A2: 支持从 hxv4 crypted 游戏（举例：魔女的夜宴 Steam版、星光咖啡馆与死神之蝶 Steam版、天使嚣嚣 原版及 Hikari Field 版、Limelight Lemonade Jam 体验版及原版等）中还原以下文件名和目录名信息：
 
 - 目录结构
 - 场景文件（scn）
@@ -20,23 +20,22 @@ A2: 支持从hxv4 crypted游戏（举例：魔女的夜宴 Steam版、星光咖�
 - 视频文件（video）
 - …………
 
-项目当前针对Dracu-Riot! Steam版进行开发，因此对于其他游戏的支持可能有所欠缺。
+项目当前针对 Dracu-Riot! Steam 版进行开发，因此对于其他游戏的支持可能有所欠缺。
 
-若你完善了对其他游戏的支持，欢迎创建Pull Request来帮助这个项目变得更好！😘
+若你完善了对其他游戏的支持，欢迎创建 Pull Request 来帮助这个项目变得更好！😘
 
 **Q3: 如何使用？**
 
 A3: 使用如下，请自行尝试：
 
-1. 使用KrkrExtractForCxdecV2（或GARBro2，若支持目标游戏）提取xp3；
+1. 使用 KrkrExtractForCxdecV2（或 GARBro2 ，若支持目标游戏）提取 xp3 ；
+2. 在 main.py 开头处更改目录配置及添加明文字典来源，具体使用方法可参照 main.py 中的注释；
+3. 运行 main.py ，即可还原文件名并自动重命名文件名和目录名；
+4. 运行后生成的 HxNames.lst 可供 GARbro 等工具使用。
 
-2. 在main.py开头处更改目录配置及添加明文字典来源，具体使用方法可参照main.py中的注释；
+    - 若做发布用途，建议使用 tools/generate_clean_hxnames.py 再生成一份干净的文件。
 
-3. 运行main.py，即可还原文件名并自动重命名文件名和目录名；
-
-4. 运行后生成的HxNames.lst可供GARbro等工具使用。
-
-    - 若做发布用途，建议使用tools/generate_clean_hxnames.py再生成一份干净的文件。
+**注意：**项目在 Python 3.12 版本上开发，最低兼容 Python 3.10 版本，使用前请先确认你的 Python 版本是否满足条件。
 
 **使用此项目生成：**
 

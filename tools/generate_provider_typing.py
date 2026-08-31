@@ -131,7 +131,7 @@ def generate():
 
     content = "\n".join(
         [
-            "# 此文件由 utils/generate_provider_typing.py 自动生成，请勿手动修改。",
+            "# 此文件由 tools/generate_provider_typing.py 自动生成，请勿手动修改。",
             "from __future__ import annotations",
             "",
             "from collections.abc import Iterable",

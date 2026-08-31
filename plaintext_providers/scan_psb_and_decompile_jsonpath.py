@@ -1,16 +1,17 @@
 """
-扫描给定目录下的文件，对可能的psb文件进行decompile并获取所有文件引用
+扫描给定目录下的文件，对可能的psb文件进行decompile并通过JSONPath获取所有文件引用
 """
 
 import json
 import logging
 import os
 import pickle
-import re
 import shutil
 import subprocess
 from contextlib import suppress
 from pathlib import Path
+
+from jsonpath_ng import parse
 
 from plain_dict import PlainDict
 from plaintext_providers import register
@@ -19,7 +20,7 @@ from plaintext_providers import register
 logger = logging.getLogger(__name__)
 
 
-@register(name="scan_psb_and_decompile_re")
+@register(name="scan_psb_and_decompile_jsonpath")
 def collect(self: PlainDict, scn_dir: str):
     def is_psb_file(path) -> bool:
         path = Path(path)
@@ -49,6 +50,9 @@ def collect(self: PlainDict, scn_dir: str):
     image_names = set()
     sound_names = set()
     scenario_names = set()
+    image_jsonpaths = (parse("$..file"), parse("$..image"))
+    sound_jsonpath = parse("$..filename")
+    scenario_jsonpath = parse("$..storage")
 
     if not os.path.exists(self.config.psb_type_cache_pkl):
         open(self.config.psb_type_cache_pkl, mode="wb")
@@ -80,16 +84,10 @@ def collect(self: PlainDict, scn_dir: str):
                     if "scenes" in psb_json and "name" in psb_json:
                         psb_type_cache["scn"].add(file_prefix + file)
 
-                        json_f.seek(0)
-                        content = json_f.read()
-                        for match in re.finditer(r'"file":\s*"([^"]+)"', content):
-                            image_names.add(match.group(1))
-                        for match in re.finditer(r'"image":\s*"([^"]+)"', content):
-                            image_names.add(match.group(1))
-                        for match in re.finditer(r'"filename":\s*"([^"]+)"', content):
-                            sound_names.add(match.group(1))
-                        for match in re.finditer(r'"storage":\s*"([^"]+)"', content):
-                            scenario_names.add(match.group(1))
+                        for image_jsonpath in image_jsonpaths:
+                            image_names.update(match.value for match in image_jsonpath.find(psb_json) if isinstance(match.value, str) and match.value)
+                        sound_names.update(match.value for match in sound_jsonpath.find(psb_json) if isinstance(match.value, str) and match.value)
+                        scenario_names.update(match.value for match in scenario_jsonpath.find(psb_json) if isinstance(match.value, str) and match.value)
 
                     elif "height" in psb_json and "width" in psb_json:
                         psb_type_cache["pimg"].add(file_prefix + file)

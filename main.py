@@ -66,8 +66,8 @@ def build_plain_dictionary():
         #.scan_psb_and_decompile(
         #    scn_dir=r"D:\gals\Dracu-Riot 脱steam\Extractor_Output"
         #)
-        ## 与上一项使用相同反编译准备流程，但通过正则表达式提取更广泛的引用；可按游戏情况二选一或同时使用。
-        #.scan_psb_and_decompile_re(
+        ## 与上一项使用相同反编译准备流程，但通过 JSONPath 提取更广泛的引用；可按游戏情况二选一或同时使用。
+        #.scan_psb_and_decompile_jsonpath(
         #    scn_dir=r"D:\gals\Dracu-Riot 脱steam\Extractor_Output"
         #)
         ## 按文件头扫描 TLGref 立绘文件，并从二进制头部提取被引用的 TLG 文件名。
